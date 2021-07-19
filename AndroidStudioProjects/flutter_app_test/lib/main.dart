@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_app_test/login.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,8 +15,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: //risk_factor()
-      loginPage(),
+      home: loginPage(),
     );
   }
 }
+

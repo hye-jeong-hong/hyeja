@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_test/home.dart';
 import 'package:flutter_app_test/info_select.dart';
+import 'package:flutter_app_test/newmem_register.dart';
 
 
 class loginPage extends StatefulWidget {
@@ -12,11 +15,12 @@ class loginPage extends StatefulWidget {
 class _loginPageState extends State<loginPage> {
   //final _bloc = regBloc();
   final _formKey = GlobalKey<FormState>();
-  final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
+  var _usernameController = TextEditingController();
+  var _passwordController = TextEditingController();
 
   String id = '';
   String password = '';
+  String email = ' ';
 
   void validateAndSave(List<String> info) {
     final form = _formKey.currentState;
@@ -29,62 +33,69 @@ class _loginPageState extends State<loginPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    String id_name;
-    id_name = id;
-    List<String> info = List<String>();
-    info.add(id);
+  Widget build(BuildContext context){
     return Scaffold(
-      appBar: AppBar(
-        title: Center(child: Text('애프터 미',
-            style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold,))),
-        backgroundColor: Colors.orange,
-      ),
-      body: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(30),
-              child: Column(
-                children: <Widget>[
-                  SizedBox(height: 20),
-                  Text('나를 위한 성형 수술 후 관리 애플리케이션', style: TextStyle(fontSize: 15, color: Colors.black)),
-                  SizedBox(height: 110),
-                  TextFormField(
-                    decoration: InputDecoration(labelText: '이름'),
-                    validator: (value) =>
-                    value.isEmpty ? '이름은 공백일 수 없습니다.' : null,
-                    onSaved: (value) => id = value,
-                  ),
-                  SizedBox(height: 100),
-                  Column(
-                    children: <Widget>[
-                      Container(
-                        width: 220,
-                        height: 80,
-                        child: OutlineButton(
-                          child: Text('         성형수술\n사후관리 시작하기',
-                              style: TextStyle(fontSize: 18, color: Colors.black)),
-                          borderSide: BorderSide(color: Colors.deepOrangeAccent, width: 3.0),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50)),
-                          onPressed: () {
-                            validateAndSave(info);
-                            Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => InfoSelect()));
-                          },
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                    ],
-                  ),
-                ],
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 24),
+          children: [
+            Image.asset('images/Logo.png'),
+            SizedBox(height: 7,),
+            TextFormField(
+              controller: _usernameController,
+              decoration: InputDecoration(
+                labelText: 'ID',
               ),
+              validator: (value) => value.isEmpty ? 'ID를 입력해주세요' : null,
+              keyboardType: TextInputType.text,
             ),
+            SizedBox(height: 10,),
+            TextFormField(
+              controller: _passwordController,
+              decoration: InputDecoration(
+                labelText: 'Password',
+              ),
+              validator: (value) => value.isEmpty ? '비밀번호를 입력해주세요' : null,
+              keyboardType: TextInputType.text,
+              //obscureText: true,
+            ),
+            ButtonBar(
+              children: [
+                FlatButton(
+                  padding: const EdgeInsets.only(top: 20.0, right: 120),
+                  child: Text('회원가입 하러가기'),
+                  onPressed: () {
+                    _usernameController.clear();
+                    _passwordController.clear();
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Register()));
+                  },
+                ),
+                Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(top: 20.0, right: 130),
+                      width: 220,
+                      height: 80,
+                      child: OutlineButton(
+                        child: Text('Login',
+                            style: TextStyle(fontSize: 18, color: Colors.black)),
+                        borderSide: BorderSide(color: Colors.orangeAccent, width: 3.0),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50)),
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => InfoSelect()));
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            )
           ],
-        ),
+        )
       ),
     );
   }

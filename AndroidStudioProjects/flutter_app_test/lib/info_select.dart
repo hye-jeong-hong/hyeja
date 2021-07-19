@@ -749,9 +749,7 @@ class _InfoSelectState extends State<InfoSelect> {
                       Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Hospital()));
                     },
-
                   ),
-
                 ),
                 Container(
                   padding: EdgeInsets.all(16),
