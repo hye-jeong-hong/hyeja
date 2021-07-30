@@ -9,8 +9,13 @@ class RecoveryWrite extends StatefulWidget {
 }
 
 class _RecoveryWriteState extends State<RecoveryWrite> {
-  PickedFile _imageFile;
-  final ImagePicker _picker = ImagePicker();
+
+  PickedFile _imageFile_1;
+  PickedFile _imageFile_2;
+  PickedFile _imageFile_3;
+  final ImagePicker _picker_1 = ImagePicker();
+  final ImagePicker _picker_2 = ImagePicker();
+  final ImagePicker _picker_3 = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +50,11 @@ class _RecoveryWriteState extends State<RecoveryWrite> {
                       child: Row(
                         children: [
                           SizedBox(width: 20,),
-                          imageProfile(),
+                          imageProfile_1(),
                           SizedBox(width: 20,),
-                          imageProfile(),
+                          imageProfile_2(),
                           SizedBox(width: 20,),
-                          imageProfile(),
+                          imageProfile_3(),
                         ],
                       ),
                     ),
@@ -82,22 +87,80 @@ class _RecoveryWriteState extends State<RecoveryWrite> {
     );
   }
 
-  Widget imageProfile(){
+  Widget imageProfile_1(){
     return Center(
       child: Stack(
         children: [
           CircleAvatar(
             radius: 80,
-            backgroundImage: _imageFile == null
-                ? AssetImage('assets/profile.jfif')
-                : FileImage(File(_imageFile.path)),
+            backgroundImage: _imageFile_1 == null
+                ? AssetImage('assets/profile_1.jfif')
+                : FileImage(File(_imageFile_1.path)),
           ),
           Positioned(
             bottom: 20,
             right: 20,
             child: InkWell(
               onTap: (){
-                showModalBottomSheet(context: context, builder: ((builder) => bottonSheet()));
+                showModalBottomSheet(context: context, builder: ((builder) => bottonSheet_1()));
+              },
+              child: Icon(
+                Icons.camera_alt,
+                color: Colors.redAccent,
+                size: 40,
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget imageProfile_2(){
+    return Center(
+      child: Stack(
+        children: [
+          CircleAvatar(
+            radius: 80,
+            backgroundImage: _imageFile_2 == null
+                ? AssetImage('assets/profile_2.jfif')
+                : FileImage(File(_imageFile_2.path)),
+          ),
+          Positioned(
+            bottom: 20,
+            right: 20,
+            child: InkWell(
+              onTap: (){
+                showModalBottomSheet(context: context, builder: ((builder) => bottonSheet_2()));
+              },
+              child: Icon(
+                Icons.camera_alt,
+                color: Colors.redAccent,
+                size: 40,
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget imageProfile_3(){
+    return Center(
+      child: Stack(
+        children: [
+          CircleAvatar(
+            radius: 80,
+            backgroundImage: _imageFile_3 == null
+                ? AssetImage('assets/profile_3.jfif')
+                : FileImage(File(_imageFile_3.path)),
+          ),
+          Positioned(
+            bottom: 20,
+            right: 20,
+            child: InkWell(
+              onTap: (){
+                showModalBottomSheet(context: context, builder: ((builder) => bottonSheet_3()));
               },
               child: Icon(
                 Icons.camera_alt,
@@ -138,7 +201,7 @@ class _RecoveryWriteState extends State<RecoveryWrite> {
     );
   }
 
-  Widget bottonSheet() {
+  Widget bottonSheet_1() {
     return Container(
       height: 100,
       width: MediaQuery.of(context).size.width,
@@ -159,14 +222,14 @@ class _RecoveryWriteState extends State<RecoveryWrite> {
               FlatButton.icon(
                 icon: Icon(Icons.camera, size:50),
                 onPressed: () {
-                  takePhoto(ImageSource.camera);
+                  takePhoto_1(ImageSource.camera);
                 },
                 label: Text('Camera', style: TextStyle(fontSize: 20),),
               ),
               FlatButton.icon(
                 icon: Icon(Icons.photo_library, size: 50,),
                 onPressed: () {
-                  takePhoto(ImageSource.gallery);
+                  takePhoto_1(ImageSource.gallery);
                 },
                 label: Text('Gallery', style: TextStyle(fontSize: 20),),
               )
@@ -177,10 +240,103 @@ class _RecoveryWriteState extends State<RecoveryWrite> {
     );
   }
 
-  takePhoto(ImageSource source) async {
-    final prickedFile = await _picker.getImage(source: source);
+  Widget bottonSheet_2() {
+    return Container(
+        height: 100,
+        width: MediaQuery.of(context).size.width,
+        margin: EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 20
+        ),
+        child: Column(
+          children: [
+            Text('Choose Photo',
+              style: TextStyle(
+                fontSize: 20,
+              ),),
+            SizedBox(height: 20,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                FlatButton.icon(
+                  icon: Icon(Icons.camera, size:50),
+                  onPressed: () {
+                    takePhoto_2(ImageSource.camera);
+                  },
+                  label: Text('Camera', style: TextStyle(fontSize: 20),),
+                ),
+                FlatButton.icon(
+                  icon: Icon(Icons.photo_library, size: 50,),
+                  onPressed: () {
+                    takePhoto_2(ImageSource.gallery);
+                  },
+                  label: Text('Gallery', style: TextStyle(fontSize: 20),),
+                )
+              ],
+            )
+          ],
+        )
+    );
+  }
+
+  Widget bottonSheet_3() {
+    return Container(
+        height: 100,
+        width: MediaQuery.of(context).size.width,
+        margin: EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 20
+        ),
+        child: Column(
+          children: [
+            Text('Choose Photo',
+              style: TextStyle(
+                fontSize: 20,
+              ),),
+            SizedBox(height: 20,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                FlatButton.icon(
+                  icon: Icon(Icons.camera, size:50),
+                  onPressed: () {
+                    takePhoto_3(ImageSource.camera);
+                  },
+                  label: Text('Camera', style: TextStyle(fontSize: 20),),
+                ),
+                FlatButton.icon(
+                  icon: Icon(Icons.photo_library, size: 50,),
+                  onPressed: () {
+                    takePhoto_3(ImageSource.gallery);
+                  },
+                  label: Text('Gallery', style: TextStyle(fontSize: 20),),
+                )
+              ],
+            )
+          ],
+        )
+    );
+  }
+
+  takePhoto_1(ImageSource source) async {
+    final pickedFile_1 = await _picker_1.getImage(source: source);
     setState(() {
-      _imageFile = prickedFile;
+      _imageFile_1 = pickedFile_1;
     });
   }
+
+  takePhoto_2(ImageSource source) async {
+    final pickedFile_2 = await _picker_2.getImage(source: source);
+    setState(() {
+      _imageFile_2 = pickedFile_2;
+    });
+  }
+
+  takePhoto_3(ImageSource source) async {
+    final pickedFile_3 = await _picker_3.getImage(source: source);
+    setState(() {
+      _imageFile_3 = pickedFile_3;
+    });
+  }
+
 }

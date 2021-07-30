@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_test/home.dart';
+import 'package:flutter_app_test/medicine_home.dart';
 
 enum Time {m, a, e}
 
@@ -89,7 +90,6 @@ class _MedicineInfoState extends State<MedicineInfo> {
              },
            ),
          ),
-
          SizedBox(height: 10,),
          Padding(
            padding: const EdgeInsets.only(top: 20, right: 270, bottom: 10),
@@ -134,7 +134,7 @@ class _MedicineInfoState extends State<MedicineInfo> {
              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
              onPressed:() {
                Navigator.push(context,
-                   MaterialPageRoute(builder: (context) => Home()));
+                   MaterialPageRoute(builder: (context) => MedicineHome()));
              },
            ),
          ),

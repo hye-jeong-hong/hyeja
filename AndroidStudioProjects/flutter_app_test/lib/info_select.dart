@@ -4,11 +4,16 @@ import 'package:flutter_app_test/hospital.dart';
 import 'package:multiselect_formfield/multiselect_formfield.dart';
 
 class InfoSelect extends StatefulWidget {
+  List<String> MemberName;
+
+  InfoSelect({this.MemberName});
   @override
   _InfoSelectState createState() => _InfoSelectState();
 }
 
 class _InfoSelectState extends State<InfoSelect> {
+  List<String> Member_face_lifting = [];
+
   List _myActivities_eye;
   String _myActivitiesResult_eye;
   List _myActivities_nose;
@@ -19,10 +24,14 @@ class _InfoSelectState extends State<InfoSelect> {
   String _myActivitiesResult_liposuction;
   List _myActivities_bust;
   String _myActivitiesResult_bust;
+  List _myActivities_transplantation;
+  String _myActivitiesResult_transplantation;
   List _myActivities_lip;
   String _myActivitiesResult_lip;
   List _myActivities_lifting;
   String _myActivitiesResult_lifting;
+  List _myActivities_prosthesis;
+  String _myActivitiesResult_prosthesis;
   List _myActivities_filler;
   String _myActivitiesResult_filler;
 
@@ -41,36 +50,45 @@ class _InfoSelectState extends State<InfoSelect> {
     _myActivitiesResult_liposuction = '';
     _myActivities_bust = [];
     _myActivitiesResult_bust = '';
+    _myActivities_transplantation = [];
+    _myActivitiesResult_transplantation = '';
     _myActivities_lip = [];
     _myActivitiesResult_lip = '';
     _myActivities_lifting = [];
     _myActivitiesResult_lifting = '';
+    _myActivities_prosthesis = [];
+    _myActivitiesResult_prosthesis = '';
     _myActivities_filler = [];
     _myActivitiesResult_filler = '';
   }
 
   _saveForm() {
     var form = formKey.currentState;
+    form.save();
     if (form.validate()) {
-      form.save();
       setState(() {
         _myActivitiesResult_eye = _myActivities_eye.toString();
         _myActivitiesResult_nose = _myActivities_nose.toString();
         _myActivitiesResult_face = _myActivities_face.toString();
         _myActivitiesResult_liposuction = _myActivities_liposuction.toString();
         _myActivitiesResult_bust = _myActivities_bust.toString();
+        _myActivitiesResult_transplantation = _myActivities_transplantation.toString();
         _myActivitiesResult_lip = _myActivities_lip.toString();
         _myActivitiesResult_lifting = _myActivities_lifting.toString();
+        _myActivitiesResult_prosthesis = _myActivities_prosthesis.toString();
         _myActivitiesResult_filler = _myActivities_filler.toString();
+        form.save();
       });
     }
+
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('애프터 미'),
+        title: Text('After Me'),
+        backgroundColor: Colors.deepPurple[300],
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -82,8 +100,8 @@ class _InfoSelectState extends State<InfoSelect> {
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.only(left: 10.0, top: 10.0),
-                  child: Text('안녕하세요 홍길동님,\n홍길동님의 성형 수술/시술 부위를 알려주세요!',
-                    style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold,),
+                  child: Text(widget.MemberName[0] + '님의 성형 수술/시술 부위를 알려주세요!',
+                    style: TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold,),
                     ),
                 ),
                 Container(
@@ -93,10 +111,10 @@ class _InfoSelectState extends State<InfoSelect> {
                       child: Container(
                         child: MultiSelectFormField(
                           autovalidate: false,
-                          chipBackGroundColor: Colors.red,
+                          chipBackGroundColor: Colors.red[200],
                           chipLabelStyle: TextStyle(fontWeight: FontWeight.bold),
                           dialogTextStyle: TextStyle(fontWeight: FontWeight.bold),
-                          checkBoxActiveColor: Colors.red,
+                          checkBoxActiveColor: Colors.red[200],
                           checkBoxCheckColor: Colors.green,
                           dialogShapeBorder: RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(Radius.circular(12.0))),
@@ -139,8 +157,10 @@ class _InfoSelectState extends State<InfoSelect> {
                           onSaved: (value) {
                             if (value == null) return;
                             setState(() {
+                              Member_face_lifting = [];
                               _myActivities_eye = value;
                             });
+                            Member_face_lifting.add(_myActivitiesResult_eye);
                           },
                         ),
                       ),
@@ -153,10 +173,10 @@ class _InfoSelectState extends State<InfoSelect> {
                     child: Container(
                       child: MultiSelectFormField(
                         autovalidate: false,
-                        chipBackGroundColor: Colors.red,
+                        chipBackGroundColor: Colors.red[200],
                         chipLabelStyle: TextStyle(fontWeight: FontWeight.bold),
                         dialogTextStyle: TextStyle(fontWeight: FontWeight.bold),
-                        checkBoxActiveColor: Colors.red,
+                        checkBoxActiveColor: Colors.red[200],
                         checkBoxCheckColor: Colors.green,
                         dialogShapeBorder: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(12.0))),
@@ -225,6 +245,7 @@ class _InfoSelectState extends State<InfoSelect> {
                           setState(() {
                             _myActivities_nose = value;
                           });
+                          Member_face_lifting.add(_myActivitiesResult_nose);
                         },
                       ),
                     ),
@@ -237,10 +258,10 @@ class _InfoSelectState extends State<InfoSelect> {
                     child: Container(
                       child: MultiSelectFormField(
                         autovalidate: false,
-                        chipBackGroundColor: Colors.red,
+                        chipBackGroundColor: Colors.red[200],
                         chipLabelStyle: TextStyle(fontWeight: FontWeight.bold),
                         dialogTextStyle: TextStyle(fontWeight: FontWeight.bold),
-                        checkBoxActiveColor: Colors.red,
+                        checkBoxActiveColor: Colors.red[200],
                         checkBoxCheckColor: Colors.green,
                         dialogShapeBorder: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(12.0))),
@@ -293,6 +314,7 @@ class _InfoSelectState extends State<InfoSelect> {
                           setState(() {
                             _myActivities_face = value;
                           });
+                          Member_face_lifting.add(_myActivitiesResult_face);
                         },
                       ),
                     ),
@@ -305,10 +327,10 @@ class _InfoSelectState extends State<InfoSelect> {
                     child: Container(
                       child: MultiSelectFormField(
                         autovalidate: false,
-                        chipBackGroundColor: Colors.red,
+                        chipBackGroundColor: Colors.red[200],
                         chipLabelStyle: TextStyle(fontWeight: FontWeight.bold),
                         dialogTextStyle: TextStyle(fontWeight: FontWeight.bold),
-                        checkBoxActiveColor: Colors.red,
+                        checkBoxActiveColor: Colors.red[200],
                         checkBoxCheckColor: Colors.green,
                         dialogShapeBorder: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(12.0))),
@@ -369,6 +391,7 @@ class _InfoSelectState extends State<InfoSelect> {
                           setState(() {
                             _myActivities_liposuction = value;
                           });
+                          Member_face_lifting.add(_myActivitiesResult_liposuction);
                         },
                       ),
                     ),
@@ -381,10 +404,10 @@ class _InfoSelectState extends State<InfoSelect> {
                     child: Container(
                       child: MultiSelectFormField(
                         autovalidate: false,
-                        chipBackGroundColor: Colors.red,
+                        chipBackGroundColor: Colors.red[200],
                         chipLabelStyle: TextStyle(fontWeight: FontWeight.bold),
                         dialogTextStyle: TextStyle(fontWeight: FontWeight.bold),
-                        checkBoxActiveColor: Colors.red,
+                        checkBoxActiveColor: Colors.red[200],
                         checkBoxCheckColor: Colors.green,
                         dialogShapeBorder: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(12.0))),
@@ -425,6 +448,7 @@ class _InfoSelectState extends State<InfoSelect> {
                           setState(() {
                             _myActivities_bust = value;
                           });
+                          Member_face_lifting.add(_myActivitiesResult_bust);
                         },
                       ),
                     ),
@@ -437,10 +461,10 @@ class _InfoSelectState extends State<InfoSelect> {
                     child: Container(
                       child: MultiSelectFormField(
                         autovalidate: false,
-                        chipBackGroundColor: Colors.red,
+                        chipBackGroundColor: Colors.red[200],
                         chipLabelStyle: TextStyle(fontWeight: FontWeight.bold),
                         dialogTextStyle: TextStyle(fontWeight: FontWeight.bold),
-                        checkBoxActiveColor: Colors.red,
+                        checkBoxActiveColor: Colors.red[200],
                         checkBoxCheckColor: Colors.green,
                         dialogShapeBorder: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(12.0))),
@@ -487,12 +511,13 @@ class _InfoSelectState extends State<InfoSelect> {
                         okButtonLabel: 'OK',
                         cancelButtonLabel: 'CANCEL',
                         hintWidget: Text('지방이식 수술 종류를 선택해주세요! (중복가능)'),
-                        initialValue: _myActivities_bust,
+                        initialValue: _myActivities_transplantation,
                         onSaved: (value) {
                           if (value == null) return;
                           setState(() {
-                            _myActivities_bust = value;
+                            _myActivities_transplantation = value;
                           });
+                          Member_face_lifting.add(_myActivitiesResult_transplantation);
                         },
                       ),
                     ),
@@ -505,10 +530,10 @@ class _InfoSelectState extends State<InfoSelect> {
                     child: Container(
                       child: MultiSelectFormField(
                         autovalidate: false,
-                        chipBackGroundColor: Colors.red,
+                        chipBackGroundColor: Colors.red[200],
                         chipLabelStyle: TextStyle(fontWeight: FontWeight.bold),
                         dialogTextStyle: TextStyle(fontWeight: FontWeight.bold),
-                        checkBoxActiveColor: Colors.red,
+                        checkBoxActiveColor: Colors.red[200],
                         checkBoxCheckColor: Colors.green,
                         dialogShapeBorder: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(12.0))),
@@ -549,6 +574,7 @@ class _InfoSelectState extends State<InfoSelect> {
                           setState(() {
                             _myActivities_lip = value;
                           });
+                          Member_face_lifting.add(_myActivitiesResult_lip);
                         },
                       ),
                     ),
@@ -561,10 +587,10 @@ class _InfoSelectState extends State<InfoSelect> {
                     child: Container(
                       child: MultiSelectFormField(
                         autovalidate: false,
-                        chipBackGroundColor: Colors.red,
+                        chipBackGroundColor: Colors.red[200],
                         chipLabelStyle: TextStyle(fontWeight: FontWeight.bold),
                         dialogTextStyle: TextStyle(fontWeight: FontWeight.bold),
-                        checkBoxActiveColor: Colors.red,
+                        checkBoxActiveColor: Colors.red[200],
                         checkBoxCheckColor: Colors.green,
                         dialogShapeBorder: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(12.0))),
@@ -601,6 +627,7 @@ class _InfoSelectState extends State<InfoSelect> {
                           setState(() {
                             _myActivities_lifting = value;
                           });
+                          Member_face_lifting.add(_myActivitiesResult_lifting);
                         },
                       ),
                     ),
@@ -613,10 +640,10 @@ class _InfoSelectState extends State<InfoSelect> {
                     child: Container(
                       child: MultiSelectFormField(
                         autovalidate: false,
-                        chipBackGroundColor: Colors.red,
+                        chipBackGroundColor: Colors.red[200],
                         chipLabelStyle: TextStyle(fontWeight: FontWeight.bold),
                         dialogTextStyle: TextStyle(fontWeight: FontWeight.bold),
-                        checkBoxActiveColor: Colors.red,
+                        checkBoxActiveColor: Colors.red[200],
                         checkBoxCheckColor: Colors.green,
                         dialogShapeBorder: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(12.0))),
@@ -642,13 +669,14 @@ class _InfoSelectState extends State<InfoSelect> {
                         valueField: 'value',
                         okButtonLabel: 'OK',
                         cancelButtonLabel: 'CANCEL',
-                        hintWidget: Text('보형물 수술 종를 선택해주세요! (중복가능)'),
-                        initialValue: _myActivities_lifting,
+                        hintWidget: Text('보형물 수술 종류를 선택해주세요! (중복가능)'),
+                        initialValue: _myActivities_prosthesis,
                         onSaved: (value) {
                           if (value == null) return;
                           setState(() {
-                            _myActivities_lifting = value;
+                            _myActivities_prosthesis = value;
                           });
+                          Member_face_lifting.add(_myActivitiesResult_prosthesis);
                         },
                       ),
                     ),
@@ -661,10 +689,10 @@ class _InfoSelectState extends State<InfoSelect> {
                     child: Container(
                       child: MultiSelectFormField(
                         autovalidate: false,
-                        chipBackGroundColor: Colors.red,
+                        chipBackGroundColor: Colors.red[200],
                         chipLabelStyle: TextStyle(fontWeight: FontWeight.bold),
                         dialogTextStyle: TextStyle(fontWeight: FontWeight.bold),
-                        checkBoxActiveColor: Colors.red,
+                        checkBoxActiveColor: Colors.red[200],
                         checkBoxCheckColor: Colors.green,
                         dialogShapeBorder: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(12.0))),
@@ -729,6 +757,9 @@ class _InfoSelectState extends State<InfoSelect> {
                           setState(() {
                             _myActivities_filler = value;
                           });
+                          Member_face_lifting.add(_myActivitiesResult_filler);
+                          ListResult(Member_face_lifting);
+                          Member_face_lifting = ListResult(Member_face_lifting);
                         },
                       ),
                     ),
@@ -737,6 +768,8 @@ class _InfoSelectState extends State<InfoSelect> {
                 Container(
                   padding: EdgeInsets.all(8),
                   child: RaisedButton(
+                    color: Colors.orange[200],
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
                     child: Text('저장하기'),
                     onPressed: _saveForm,
                   ),
@@ -745,23 +778,46 @@ class _InfoSelectState extends State<InfoSelect> {
                   padding: EdgeInsets.all(10),
                   child: RaisedButton(
                     child: Text('다음'),
+                    color: Colors.orange[300],
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
                     onPressed:() {
+                      print(Member_face_lifting);
                       Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Hospital()));
+                      MaterialPageRoute(builder: (context) => Hospital(MemberName: widget.MemberName, Member_face_lifting: Member_face_lifting)));
                     },
                   ),
                 ),
+
                 Container(
                   padding: EdgeInsets.all(16),
-                  child: Text(_myActivitiesResult_eye + _myActivitiesResult_nose + _myActivitiesResult_face
-                      + _myActivitiesResult_liposuction + _myActivitiesResult_bust + _myActivitiesResult_lip
-                      + _myActivitiesResult_lifting + _myActivitiesResult_filler),
-                )
+                  child: Text('선택하신 성형 수술/시술 종류는\n' + (_myActivitiesResult_eye.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
+                      + (_myActivitiesResult_nose.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
+                      + (_myActivitiesResult_face.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
+                      + (_myActivitiesResult_liposuction.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
+                      + (_myActivitiesResult_bust.replaceAll('[', '')).replaceAll(']', '' ).replaceAll(',', '')
+                      + (_myActivitiesResult_transplantation.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
+                      + (_myActivitiesResult_lip.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
+                      + (_myActivitiesResult_lifting.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
+                      + (_myActivitiesResult_prosthesis.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
+                      + (_myActivitiesResult_filler.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '') + ' 입니다 :)'),
+                ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  ListResult(Member_face_lifting) {
+
+    List<String> face_lifting_result = [];
+
+    for(int i=0; i<10; i++) {
+      if(Member_face_lifting[i].toString() != '[]') {
+        face_lifting_result.add(Member_face_lifting[i].toString());
+      }
+    }
+    return face_lifting_result;
   }
 }

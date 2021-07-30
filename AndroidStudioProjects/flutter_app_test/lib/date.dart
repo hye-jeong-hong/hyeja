@@ -4,20 +4,27 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class Date extends StatefulWidget {
+  List<String> MemberName;
+  List<String> Member_face_lifting;
+  List<String> hospital_name;
+  Date({this.MemberName, this.Member_face_lifting, this.hospital_name});
+
   @override
   _DateState createState() => _DateState();
 }
 
-
 class _DateState extends State<Date> {
   String _selectedDate = '';
   String _dateCount = '';
+  List<String> date = [];
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     setState(() {
       if (args.value is DateTime) {
         _selectedDate = DateFormat('yyyy/MM/dd').format(args.value).toString();
-        print(_selectedDate);
+        date = [];
+        date.add(_selectedDate);
+        print(date);
       }
     });
   }
@@ -26,7 +33,8 @@ class _DateState extends State<Date> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('애프터 미'),
+          title: const Text('After Me'),
+          backgroundColor: Colors.deepPurple[300],
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,7 +42,7 @@ class _DateState extends State<Date> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                child: Text('홍길동님이 성형 수술/시술하신\n날짜를 선택해주세요',
+                child: Text(widget.MemberName[0] + '님이 성형 수술/시술하신\n날짜를 선택해주세요',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
               ),
             ),
@@ -65,7 +73,7 @@ class _DateState extends State<Date> {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
                     onPressed:() {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Home()));
+                          MaterialPageRoute(builder: (context) => Home(MemberName: widget.MemberName, Member_face_lifting: widget.Member_face_lifting, hospital_name: widget.hospital_name, date: date)));
                     },
                   ),
                 ),
