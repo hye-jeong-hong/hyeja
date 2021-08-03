@@ -20,6 +20,7 @@ class _ConsultationApplicationState extends State<ConsultationApplication> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         iconTheme: IconThemeData(
             color: Colors.blue[400],

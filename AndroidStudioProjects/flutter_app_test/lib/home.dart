@@ -21,21 +21,17 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    widget.date = ['2021/07/30'];   //로그인 -> HOME 들어오기 위한 초기화
+    //widget.date = ['2021/08/02'];   //로그인 -> HOME 들어오기 위한 초기화
     String temp = (widget.date[0]).toString();
     String date = temp.replaceAll('/', '');
     var selectdate = DateTime.parse(date);
-    print(selectdate);
     var now = DateTime.now();
-    print(now);
     var betweenday = now.difference(selectdate).inDays;   //현재 날짜와 선택한 날짜의 차이
-    print(betweenday);
 
     String face_result = widget.Member_face_lifting.toString();
     face_result = face_result.replaceAll('[', '');
     face_result = face_result.replaceAll(']', '');
     face_result = face_result.replaceAll(',', '  #');
-    print(face_result);
 
     String level_title_1 = '지혈 시기';
     String level_title_2 = '염증 시기';
@@ -69,7 +65,7 @@ class _HomeState extends State<Home> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-                height: 120,
+                height: MediaQuery.of(context).size.height * 0.14,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -77,7 +73,7 @@ class _HomeState extends State<Home> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(top: 70, left: 20),
-                          child: Text('안녕하세요 ' + widget.MemberName[0] + '님 :)',   //widget.Member_Info[0]
+                          child: Text('안녕하세요 ' + widget.MemberName[0] + '님 :)',
                             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),),
                         ),
                         Padding(
@@ -124,7 +120,7 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
-                        Text('# ' + face_result, //widget.Member_face_lifting.toString()
+                        Text('# ' + face_result,
                           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
                         ),
                         Text('수술한지 ' + betweenday.toString() + '일',
@@ -249,7 +245,7 @@ class _HomeState extends State<Home> {
                 height: 50,
                 width: 370,
                 child: OutlineButton(
-                  child: Text('복용 관리',
+                  child: Text('복약 관리',
                     style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   shape: RoundedRectangleBorder(

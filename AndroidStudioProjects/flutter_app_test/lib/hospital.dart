@@ -24,6 +24,7 @@ class _HospitalState extends State<Hospital> {
       print('병원 이름을 입력해주세요: $hospital');
     }
   }
+
   @override
   Widget build(BuildContext context) {
     String hospital_info;
@@ -44,7 +45,7 @@ class _HospitalState extends State<Hospital> {
             child: Text(widget.MemberName[0] + '님이 성형수술/시술하신\n병원이름을 입력해주세요!',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
           ),
-          SizedBox(height: 110),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.2),
           Padding(
             padding: const EdgeInsets.only(left: 50, right: 50, top: 70),
             child: TextFormField(
@@ -63,13 +64,39 @@ class _HospitalState extends State<Hospital> {
             color: Colors.orange[300],
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
             onPressed: () {
+              hospital_name = [];
               hospital_name.add(hospital.toString());
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Date(MemberName: widget.MemberName, Member_face_lifting: widget.Member_face_lifting, hospital_name: hospital_name)));
+              if(hospital_name.toString() != '[ ]') {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Date(MemberName: widget.MemberName, Member_face_lifting: widget.Member_face_lifting, hospital_name: hospital_name)));
+              } else {
+                showAlertDialog_hospital(context);
+              }
             },
           )
         ],
       ),
+    );
+  }
+
+  void showAlertDialog_hospital(BuildContext context) async{
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('After Me'),
+            content: Text("병원 이름을 입력해주세요 :)"),
+            actions: [
+              FlatButton(
+                child: Text("확인"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        }
     );
   }
 }

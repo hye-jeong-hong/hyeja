@@ -13,6 +13,7 @@ class _MedicineNotificationState extends State<MedicineNotification> {
 
   bool _test = false;
   bool _test_2 = false;
+  bool check =  false;
 
   @override
   Widget build(BuildContext context) {
@@ -78,13 +79,14 @@ class _MedicineNotificationState extends State<MedicineNotification> {
               child: Text('추가하기'),
               color: Colors.indigo[300],
               onPressed: () {
+                check = true;
                 setState(() {
                   _test = true;
                 });
               }
             ),
           ),
-          if(_test==true)
+          if(check == true && _test==true)
             Padding(
               padding: const EdgeInsets.only(top: 20, left: 40),
               child: RaisedButton(
@@ -92,6 +94,7 @@ class _MedicineNotificationState extends State<MedicineNotification> {
                 color: Colors.deepPurple[300],
                 textColor: Colors.white,
                 onPressed: () {
+
                   Future<TimeOfDay> future = showTimePicker(
                     context: context,
                     initialTime: TimeOfDay.now(),
@@ -108,22 +111,25 @@ class _MedicineNotificationState extends State<MedicineNotification> {
                 },
               )
             ),
+          if(check == true && _test==true)
             Padding(
               padding: const EdgeInsets.only(top: 10, left: 30),
               child: Text('  선택하신 시간은 $_selectedTime_2 입니다'),
             ),
-          SizedBox(height: 20,),
-          Center(
-            child: RaisedButton(
-                child: Text('추가하기'),
-                color: Colors.indigo[300],
-                onPressed: () {
-                  setState(() {
-                    _test_2 = true;
-                  });
-                }
+          if(check == true && _test==true)
+            SizedBox(height: 20,),
+          if(check == true && _test==true)
+            Center(
+              child: RaisedButton(
+                  child: Text('추가하기'),
+                  color: Colors.indigo[300],
+                  onPressed: () {
+                    setState(() {
+                      _test = true;
+                    });
+                  }
+              ),
             ),
-          ),
           if(_test_2==true)
             Padding(
                 padding: const EdgeInsets.only(top: 20, left: 40),

@@ -18,9 +18,9 @@ class _loginPageState extends State<loginPage> {
   List<String> MemberName = [];
   List<String> Member_face_lifting = ['등록된 정보가 없습니다'];
   String temp = '';
+  bool login = false;
 
   signIn(String mobileNum, String pass) async {
-    bool login = false;
 
     final response = await http.get(Uri.parse('http://3.35.67.179:3300/patient'),
       headers: {'Content-Type': 'application/json'},
@@ -36,28 +36,25 @@ class _loginPageState extends State<loginPage> {
 
     int save = 0;
 
-    for(int i = 0;i<30; i++){
+    for(int i = 0;i<70; i++){
       if(Member['patientList'][i]['mobileNum'] == mobileNum && Member['patientList'][i]['pass'] == pass){
         print(Member['patientList'][i]['mobileNum']);
         print("로그인 성공");
         login = true;
+        check = 1;
         save = i;
         break;
       } else {
+        login = false;
+        check = 0;
         print("존재하지 않는 아이디입니다");
       }
     }
-
     temp = Member['patientList'][save]['name'];
     MemberName = [];
     MemberName.add(temp.toString());
 
-    if(login==true){
-      check = 1;
-    } else {
-      check = 0;
-    }
-    return check;
+    return login;
   }
 
   bool _isLoading = false;
@@ -82,13 +79,14 @@ class _loginPageState extends State<loginPage> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: SafeArea(
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 24),
           children: [
-            Image.asset('images/Logo.png'),
-            SizedBox(height: 7,),
+            Image.asset('images/Logo_2.png'),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.1),
             TextFormField(
               controller: _mobileController,
               decoration: InputDecoration(
@@ -106,7 +104,7 @@ class _loginPageState extends State<loginPage> {
                 });
               },
             ),
-            SizedBox(height: 10,),
+            SizedBox(height: 10),
             TextFormField(
               controller: _passwordController,
               decoration: InputDecoration(
@@ -122,12 +120,13 @@ class _loginPageState extends State<loginPage> {
                   newValue =  _passwordController.text;
                   password =  newValue;
                 });
+                signIn(_mobileController.text, _passwordController.text);
               },
             ),
             ButtonBar(
               children: [
                 FlatButton(
-                  padding: const EdgeInsets.only(top: 20.0, right: 120),
+                  padding: const EdgeInsets.only(top: 50.0, right: 120),
                   child: Text('회원가입 하러가기'),
                   onPressed: () {
                     _mobileController.clear();
@@ -136,39 +135,28 @@ class _loginPageState extends State<loginPage> {
                         MaterialPageRoute(builder: (context) => Register()));
                   },
                 ),
-                Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(top: 20.0, right: 130),
-                      width: 220,
-                      height: 80,
-                      child: OutlineButton(
-                        child: Text('Login',
-                            style: TextStyle(fontSize: 18, color: Colors.black)),
-                        borderSide: BorderSide(color: Colors.orangeAccent, width: 3.0),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50)),
-                        onPressed: () async{
-                          setState(() {
-                            _isLoading = true;
-                          });
-                          print(_mobileController.text);
-                          print(_passwordController.text);
-                          signIn(_mobileController.text, _passwordController.text);
-                          print('check 값 확인');
-                          print(check);
-                          if(check == 1){
-                            check = 0;
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => Home(MemberName: MemberName, Member_face_lifting: Member_face_lifting)));  //Member_Info: Member_Info
-                          } else if(check == 0){
-                            print("다시 시도하세요");
-                            showAlertDialog(context);
-                          }
-                        },
-                      ),
-                    ),
-                  ],
+                Container(
+                  padding: const EdgeInsets.only(top: 20.0, right: 130),
+                  width: 220,
+                  height: 80,
+                  child: OutlineButton(
+                    child: Text('Login',
+                        style: TextStyle(fontSize: 18, color: Colors.black)),
+                    borderSide: BorderSide(color: Colors.orangeAccent, width: 3.0),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50)),
+                    onPressed: () async{
+                      setState(() {
+                        _isLoading = true;
+                      });
+                      if(login==true){
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Home(MemberName: MemberName, Member_face_lifting: Member_face_lifting)));
+                      } else {
+                        showAlertDialog(context);
+                      }
+                    },
+                  ),
                 ),
               ],
             ),
@@ -177,25 +165,26 @@ class _loginPageState extends State<loginPage> {
       ),
     );
   }
-}
 
-void showAlertDialog(BuildContext context) async{
-  String result = await showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('로그인 실패'),
-          content: Text("아이디 혹은 비밀번호가 일치하지 않습니다.\n다시 시도해주세요!"),
-          actions: [
-            FlatButton(
-              child: Text("확인"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      }
-  );
+  void showAlertDialog(BuildContext context) async{
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('로그인 실패'),
+            content: Text("아이디 혹은 비밀번호가 일치하지 않습니다.\n다시 시도해주세요!",
+                style: TextStyle(fontSize: 13)),
+            actions: [
+              FlatButton(
+                child: Text("확인"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        }
+    );
+  }
 }

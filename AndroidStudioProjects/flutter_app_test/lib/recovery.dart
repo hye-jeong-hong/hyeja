@@ -20,6 +20,7 @@ class _RecoveryWriteState extends State<RecoveryWrite> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         iconTheme: IconThemeData(
             color: Colors.white
@@ -43,17 +44,17 @@ class _RecoveryWriteState extends State<RecoveryWrite> {
                       style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(height: 30,),
+                  SizedBox(height:  MediaQuery.of(context).size.height * 0.03),
                   Scrollbar(
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
-                          SizedBox(width: 20,),
+                          SizedBox(width: MediaQuery.of(context).size.height * 0.009,),
                           imageProfile_1(),
-                          SizedBox(width: 20,),
+                          SizedBox(width: MediaQuery.of(context).size.height * 0.009,),
                           imageProfile_2(),
-                          SizedBox(width: 20,),
+                          SizedBox(width: MediaQuery.of(context).size.height * 0.009,),
                           imageProfile_3(),
                         ],
                       ),
@@ -65,13 +66,12 @@ class _RecoveryWriteState extends State<RecoveryWrite> {
                       style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(height:  MediaQuery.of(context).size.height * 0.03),
                   writeProfile(),
-                  SizedBox(height: 20,),
+                  SizedBox(height:  MediaQuery.of(context).size.height * 0.03),
                   Padding(
                     padding: const EdgeInsets.only(left:250, right:7),
                     child: RaisedButton(
-                      //materialTapTargetSize: Size(width: 50, height: 100),
                       child: Text('작성 완료', style: TextStyle(color: Colors.white, fontSize: 15),),
                       color: Colors.orange,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),

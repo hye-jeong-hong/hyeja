@@ -13,8 +13,10 @@ class MedicalConsultation extends StatefulWidget {
 }
 
 class _MedicalConsultationState extends State<MedicalConsultation> {
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -53,13 +55,13 @@ class _MedicalConsultationState extends State<MedicalConsultation> {
                                   style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25),
                                 ),
                                 SizedBox(height: 10,),
-                                Text('전문의 명: 나의사',
+                                Text('전문의 명: ',
                                   style: TextStyle(color: Colors.black, fontSize: 16),
                                 ),
                                 Text('병원 명: ' +  widget.hospital_name[0],
                                   style: TextStyle(fontSize: 16, color: Colors.black),
                                 ),
-                                Text('병원 대표전화: 010-xxxx-xxxx',
+                                Text('병원 대표전화: ',
                                   style: TextStyle(color: Colors.black, fontSize: 16),
                                 ),
                               ],

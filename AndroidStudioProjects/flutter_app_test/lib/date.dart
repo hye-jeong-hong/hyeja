@@ -24,7 +24,6 @@ class _DateState extends State<Date> {
         _selectedDate = DateFormat('yyyy/MM/dd').format(args.value).toString();
         date = [];
         date.add(_selectedDate);
-        print(date);
       }
     });
   }
@@ -67,13 +66,16 @@ class _DateState extends State<Date> {
                   width: 130,
                   height: 50,
                   child: RaisedButton(
-                    //materialTapTargetSize: Size(width: 50, height: 100),
                     child: Text('완료', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),),
                     color: Colors.deepOrangeAccent,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
                     onPressed:() {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Home(MemberName: widget.MemberName, Member_face_lifting: widget.Member_face_lifting, hospital_name: widget.hospital_name, date: date)));
+                      if (date.toString() != '[]'){
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Home(MemberName: widget.MemberName, Member_face_lifting: widget.Member_face_lifting, hospital_name: widget.hospital_name, date: date)));
+                      } else {
+                        showAlertDialog_date(context);
+                      }
                     },
                   ),
                 ),
@@ -82,4 +84,25 @@ class _DateState extends State<Date> {
           ],
         ));
       }
-    }
+
+  void showAlertDialog_date(BuildContext context) async{
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('After Me'),
+            content: Text("수술하신 날짜를 선택해주세요 :)"),
+            actions: [
+              FlatButton(
+                child: Text("확인"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        }
+    );
+  }
+}

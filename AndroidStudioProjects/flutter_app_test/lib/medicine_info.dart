@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_test/home.dart';
 import 'package:flutter_app_test/medicine_home.dart';
 
 enum Time {m, a, e}
@@ -14,6 +13,7 @@ class _MedicineInfoState extends State<MedicineInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         iconTheme: IconThemeData(
             color: Colors.white
@@ -35,7 +35,7 @@ class _MedicineInfoState extends State<MedicineInfo> {
              style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
            ),
          ),
-         SizedBox(height: 20,),
+         SizedBox(height: 20),
          Padding(
            padding: const EdgeInsets.only(right: 220),
            child: Container(
@@ -59,7 +59,7 @@ class _MedicineInfoState extends State<MedicineInfo> {
               ),
            ),
          ),
-         SizedBox(height: 10,),
+         SizedBox(height: 10),
          Padding(
            padding: const EdgeInsets.only(top: 20, right: 270, bottom: 10),
            child: Text('약 복용 시간',
@@ -90,7 +90,19 @@ class _MedicineInfoState extends State<MedicineInfo> {
              },
            ),
          ),
-         SizedBox(height: 10,),
+         ListTile(
+           title: const Text('저녁'),
+           leading: Radio<Time>(
+             value: Time.e,
+             groupValue: _time,
+             onChanged: (value) {
+               setState(() {
+                 _time = value;
+               });
+             },
+           ),
+         ),
+         SizedBox(height: 10),
          Padding(
            padding: const EdgeInsets.only(top: 20, right: 270, bottom: 10),
            child: Text('약 복용 상태',
@@ -124,11 +136,10 @@ class _MedicineInfoState extends State<MedicineInfo> {
              ),
            ),
          ),
-         SizedBox(height: 20,),
+         SizedBox(height: 20),
          Padding(
            padding: const EdgeInsets.only(left:250, right:7),
            child: RaisedButton(
-             //materialTapTargetSize: Size(width: 50, height: 100),
              child: Text('작성 완료', style: TextStyle(color: Colors.white, fontSize: 15),),
              color: Colors.orange,
              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),

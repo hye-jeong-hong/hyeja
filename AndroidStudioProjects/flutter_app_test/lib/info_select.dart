@@ -5,7 +5,6 @@ import 'package:multiselect_formfield/multiselect_formfield.dart';
 
 class InfoSelect extends StatefulWidget {
   List<String> MemberName;
-
   InfoSelect({this.MemberName});
   @override
   _InfoSelectState createState() => _InfoSelectState();
@@ -80,7 +79,6 @@ class _InfoSelectState extends State<InfoSelect> {
         form.save();
       });
     }
-
   }
 
   @override
@@ -766,29 +764,6 @@ class _InfoSelectState extends State<InfoSelect> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(8),
-                  child: RaisedButton(
-                    color: Colors.orange[200],
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                    child: Text('저장하기'),
-                    onPressed: _saveForm,
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  child: RaisedButton(
-                    child: Text('다음'),
-                    color: Colors.orange[300],
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                    onPressed:() {
-                      print(Member_face_lifting);
-                      Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Hospital(MemberName: widget.MemberName, Member_face_lifting: Member_face_lifting)));
-                    },
-                  ),
-                ),
-
-                Container(
                   padding: EdgeInsets.all(16),
                   child: Text('선택하신 성형 수술/시술 종류는\n' + (_myActivitiesResult_eye.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
                       + (_myActivitiesResult_nose.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
@@ -801,6 +776,33 @@ class _InfoSelectState extends State<InfoSelect> {
                       + (_myActivitiesResult_prosthesis.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
                       + (_myActivitiesResult_filler.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '') + ' 입니다 :)'),
                 ),
+                Container(
+                  padding: EdgeInsets.all(8),
+                  child: RaisedButton(
+                    color: Colors.orange[200],
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                    child: Text('저장하기'),
+                    onPressed: _saveForm,
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: 2),
+                  child: RaisedButton(
+                    child: Text('다음'),
+                    color: Colors.orange[300],
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                    onPressed:() {
+                      _saveForm();
+                      if(Member_face_lifting.toString() != '[]'){
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Hospital(MemberName: widget.MemberName, Member_face_lifting: Member_face_lifting)));
+                      } else if (Member_face_lifting.toString() != null){
+                        showAlertDialog_select(context);
+                      }
+                    },
+                  ),
+                ),
+                SizedBox(height: 30),
               ],
             ),
           ),
@@ -819,5 +821,26 @@ class _InfoSelectState extends State<InfoSelect> {
       }
     }
     return face_lifting_result;
+  }
+
+  void showAlertDialog_select(BuildContext context) async{
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('After Me'),
+            content: Text("선택된 수술 정보가 없습니다.\n성형 시술/수술 종류를 선택해주세요 :)"),
+            actions: [
+              FlatButton(
+                child: Text("확인"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        }
+    );
   }
 }
