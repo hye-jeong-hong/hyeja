@@ -16,44 +16,44 @@ class _loginPageState extends State<loginPage> {
 
   int check = 0;
   List<String> MemberName = [];
-  List<String> Member_face_lifting = ['등록된 정보가 없습니다'];
+  List<String> Member_face_lifting = ['등록된 정보가 없습니다'];  //사용자가 수술 정보 입력 전 해당 메세지가 뜨도록 설정
   String temp = '';
   bool login = false;
 
   signIn(String mobileNum, String pass) async {
 
-    final response = await http.get(Uri.parse('http://3.35.67.179:3300/patient'),
+    Map login_data =
+    {
+      "mobileNum": mobileNum.toString(),
+      "pass": pass.toString(),
+    };
+    login_data = login_data.cast<String, dynamic>();
+    print(login_data);
+
+    final response = await http.post(Uri.parse('http://3.35.67.179:3300/patient/login'),
+      body: jsonEncode(login_data),
       headers: {'Content-Type': 'application/json'},
     );
-    Map<String, dynamic> data = json.decode(response.body.toString());
 
-    final request = await http.post(Uri.parse('http://3.35.67.179:3300/patient/login'),
-      body: data.toString(),
-    );
-
-    Map<String, dynamic> Member = data;
-    print(Member);
-
-    int save = 0;
-
-    for(int i = 0;i<70; i++){
-      if(Member['patientList'][i]['mobileNum'] == mobileNum && Member['patientList'][i]['pass'] == pass){
-        print(Member['patientList'][i]['mobileNum']);
-        print("로그인 성공");
+    Map<String, dynamic> data_2 = json.decode(response.body.toString());
+    print(data_2);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print("통신 완료");
+      print(response.body);
+      if(data_2['ok'] == true){
         login = true;
-        check = 1;
-        save = i;
-        break;
-      } else {
-        login = false;
-        check = 0;
-        print("존재하지 않는 아이디입니다");
+        MemberName = [];
+        MemberName.add(data_2['patient']['name'].toString());
+        print("로그인 성공");
       }
-    }
-    temp = Member['patientList'][save]['name'];
-    MemberName = [];
-    MemberName.add(temp.toString());
+      print(data_2);
 
+    } else if(response.statusCode == 504){
+      print('서버와의 연결이 불안정합니다.');
+    } else {
+      print('코드가 올바르지 않습니다');
+      throw Exception('Failed to contect Server');
+    }
     return login;
   }
 
@@ -81,87 +81,93 @@ class _loginPageState extends State<loginPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 24),
-          children: [
-            Image.asset('images/Logo_2.png'),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-            TextFormField(
-              controller: _mobileController,
-              decoration: InputDecoration(
-                labelText: 'ID',
-              ),
-              validator: (value) => value.isEmpty ? 'ID를 입력해주세요' : null,
-              keyboardType: TextInputType.text,
-              onSaved: (val) {
-                id = val;
-              },
-              onChanged: (newValue) {
-                setState(() {
-                  newValue =  _mobileController.text;
-                  id =  newValue;
-                });
-              },
-            ),
-            SizedBox(height: 10),
-            TextFormField(
-              controller: _passwordController,
-              decoration: InputDecoration(
-                labelText: 'Password',
-              ),
-              validator: (value) => value.isEmpty ? '비밀번호를 입력해주세요' : null,
-              keyboardType: TextInputType.text,
-              onSaved: (val) {
-                password = val;
-              },
-              onChanged: (newValue) {
-                setState(() {
-                  newValue =  _passwordController.text;
-                  password =  newValue;
-                });
-                signIn(_mobileController.text, _passwordController.text);
-              },
-            ),
-            ButtonBar(
-              children: [
-                FlatButton(
-                  padding: const EdgeInsets.only(top: 50.0, right: 120),
-                  child: Text('회원가입 하러가기'),
-                  onPressed: () {
-                    _mobileController.clear();
-                    _passwordController.clear();
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Register()));
-                  },
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(new FocusNode());
+        },
+        child: SafeArea(
+          child: ListView(
+            padding: EdgeInsets.symmetric(horizontal: 24),
+            children: [
+              Image.asset('images/Logo_2.png'),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+              TextFormField(
+                controller: _mobileController,
+                decoration: InputDecoration(
+                  labelText: 'ID',
                 ),
-                Container(
-                  padding: const EdgeInsets.only(top: 20.0, right: 130),
-                  width: 220,
-                  height: 80,
-                  child: OutlineButton(
-                    child: Text('Login',
-                        style: TextStyle(fontSize: 18, color: Colors.black)),
-                    borderSide: BorderSide(color: Colors.orangeAccent, width: 3.0),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
-                    onPressed: () async{
-                      setState(() {
-                        _isLoading = true;
-                      });
-                      if(login==true){
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Home(MemberName: MemberName, Member_face_lifting: Member_face_lifting)));
-                      } else {
-                        showAlertDialog(context);
-                      }
+                validator: (value) => value.isEmpty ? 'ID를 입력해주세요' : null,
+                keyboardType: TextInputType.text,
+                onSaved: (val) {
+                  id = val;
+                },
+                onChanged: (newValue) {
+                  setState(() {
+                    newValue =  _mobileController.text;
+                    id =  newValue;
+                  });
+                },
+              ),
+              SizedBox(height: 10),
+              TextFormField(
+                controller: _passwordController,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                ),
+                validator: (value) => value.isEmpty ? '비밀번호를 입력해주세요' : null,
+                keyboardType: TextInputType.text,
+                onSaved: (val) {
+                  password = val;
+                },
+                onChanged: (newValue) {
+                  setState(() {
+                    newValue =  _passwordController.text;
+                    password =  newValue;
+                  });
+                  signIn(id, password);
+                },
+              ),
+              ButtonBar(
+                children: [
+                  FlatButton(
+                    padding: const EdgeInsets.only(top: 50.0, right: 120),
+                    child: Text('회원가입 하러가기'),
+                    onPressed: () {
+                      _mobileController.clear();
+                      _passwordController.clear();
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Register()));
                     },
                   ),
-                ),
-              ],
-            ),
-          ],
-        )
+                  Container(
+                    padding: const EdgeInsets.only(top: 20.0, right: 130),
+                    width: 220,
+                    height: 80,
+                    child: OutlineButton(
+                      child: Text('Login',
+                          style: TextStyle(fontSize: 18, color: Colors.black)),
+                      borderSide: BorderSide(color: Colors.orangeAccent, width: 3.0),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)),
+                      onPressed: () async{
+                        //signIn(id, password);
+                        setState(() {
+                          _isLoading = true;
+                        });
+                        if(login==true){
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => Home(MemberName: MemberName)));
+                        } else {
+                          showAlertDialog(context);
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          )
+        ),
       ),
     );
   }

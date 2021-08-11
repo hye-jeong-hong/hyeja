@@ -15,7 +15,6 @@ class _RegisterState extends State<Register> {
   String pass_check;
   List<String> _gender = ['M', 'W'];
   bool isLoading = false;
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   ScaffoldMessengerState scaffoldMessengerState;
 
   TextEditingController _nameController = new TextEditingController();
@@ -25,11 +24,11 @@ class _RegisterState extends State<Register> {
   TextEditingController _birthController = new TextEditingController();
   TextEditingController _genderController = new TextEditingController();
 
-  List<int> birth_year = [0];
+  List<int> birth_year = [];
 
   signup(name, pass, mobileNum, birth, gender) async {
 
-    birth = birth.toString() + '-' + '01' + '-' + '01';
+    birth = birth.toString() + '-' + '01' + '-' + '01';   //서버에 보낼 앱 사용자의 생년월일 값
 
     Map data =
     {
@@ -40,8 +39,8 @@ class _RegisterState extends State<Register> {
       "gender": gender.toString(),
     };
 
-     data = data.cast<String, dynamic>();
-    final response = await http.post(Uri.parse('http://3.35.67.179:3300/patient'),
+    data = data.cast<String, dynamic>();
+    final response = await http.post(Uri.parse('http://3.35.67.179:3300/patient'),  //보낼 서버 주소
       body: jsonEncode(data),
       headers: {'Content-Type': 'application/json'},
     );
@@ -51,8 +50,6 @@ class _RegisterState extends State<Register> {
     if (response.statusCode == 200 || response.statusCode == 201) {
       Map<String, dynamic> data = json.decode(response.body.toString());
       print("통신 완료");
-      print(data);
-
     } else if(response.statusCode == 504){
       print('서버와의 연결이 불안정합니다.');
     } else {
@@ -65,15 +62,17 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     scaffoldMessengerState = ScaffoldMessenger.of(context);
+
+    birth_year = [1960];   // 출생년도의 시작 년도 삽입
     void birth_vlaue() {
       for (int i = 0; i < 1; i++) {
-        for (int j = 1960; j < 2020; j++) {
+        for (int j = 1961; j < 2020; j++) {  //출생년도 1961 - 2019년도 추가 삽입
           birth_year.add(j);
         }
       }
     }
-    birth_year = [0];
     birth_vlaue();
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -90,7 +89,9 @@ class _RegisterState extends State<Register> {
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
                 SizedBox(height: 30,),
                 Text('아이디'),
+                SizedBox(height: 10,),
                 TextFormField(
+                  maxLength: 11,
                   controller: _mobileController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
@@ -117,6 +118,7 @@ class _RegisterState extends State<Register> {
                 ),
                 SizedBox(height: 20,),
                 Text('이름'),
+                SizedBox(height: 10,),
                 TextFormField(
                   controller: _nameController,
                   decoration: InputDecoration(
@@ -166,7 +168,7 @@ class _RegisterState extends State<Register> {
                 SizedBox(height: 20,),
                 Padding(
                   padding: const EdgeInsets.only(top: 2),
-                  child: Text('성별을 선택해주세요'),
+                  child: Text('성별'),
                 ),
                 ListTile(
                   title: Text('남자'),
@@ -196,13 +198,14 @@ class _RegisterState extends State<Register> {
                     },
                   ),
                 ),
-                SizedBox(height: 20,),
                 Text('비밀번호'),
+                SizedBox(height: 10,),
                 TextFormField(
+                  maxLength: 6,
                   obscureText: true,
                   controller: _passController,
                   decoration: InputDecoration(
-                      labelText: "사용할 PW를 입력해주세요",
+                      labelText: "사용할 PW를 입력해주세요 (최대6자리)",
                       border: OutlineInputBorder(),
                       hintText: 'PW'
                   ),
@@ -224,11 +227,13 @@ class _RegisterState extends State<Register> {
                 ),
                 SizedBox(height: 20,),
                 Text('비밀번호 재입력'),
+                SizedBox(height: 10,),
                 TextFormField(
+                  maxLength: 6,
                   obscureText: true,
                   controller: _pass_checkController,
                   decoration: InputDecoration(
-                      labelText: "PW를 한번 더 입력해주세요",
+                      labelText: "PW를 한번 더 입력해주세요 ",
                       border: OutlineInputBorder(),
                       hintText: 'PW'
                   ),
@@ -278,6 +283,7 @@ class _RegisterState extends State<Register> {
                     ),
                   ),
                 ),
+                SizedBox(height: 20,),
               ],
             ),
           ),
@@ -285,6 +291,10 @@ class _RegisterState extends State<Register> {
       ),
     );
   }
+
+
+
+  //각 항목에 대해서 사용자가 입력하지 않고 완료 버튼을 눌렀을 때 알림창으로 입력 안내
 
   void AlertDialog_mobilenum(BuildContext context) async{
     String result = await showDialog(
@@ -412,6 +422,3 @@ class _RegisterState extends State<Register> {
     );
   }
 }
-
-
-

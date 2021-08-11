@@ -241,10 +241,6 @@ void showAlertDialog(BuildContext context) async {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              // onPressed: () {
-              //   Navigator.pushReplacement(context,
-              //       MaterialPageRoute(builder: (context) => MedicalConsultation()));
-              // },
             ),
           ],
         );

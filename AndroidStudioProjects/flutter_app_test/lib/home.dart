@@ -13,6 +13,7 @@ class Home extends StatefulWidget {
   List<String> hospital_name;
   List<String> date;
   Home({this.MemberName, this.Member_face_lifting, this.hospital_name, this.date});
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -21,7 +22,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    //widget.date = ['2021/08/02'];   //로그인 -> HOME 들어오기 위한 초기화
+    //widget.date = ['2021/08/12'];   //로그인 -> HOME 들어오기 위한 초기화
     String temp = (widget.date[0]).toString();
     String date = temp.replaceAll('/', '');
     var selectdate = DateTime.parse(date);
@@ -33,6 +34,8 @@ class _HomeState extends State<Home> {
     face_result = face_result.replaceAll(']', '');
     face_result = face_result.replaceAll(',', '  #');
 
+
+    // 수술 날짜부터 현재 날짜를 기준으로 기간에 따른 회복 단계 제공
     String level_title_1 = '지혈 시기';
     String level_title_2 = '염증 시기';
     String level_title_3 = '증식 시기';
@@ -77,7 +80,7 @@ class _HomeState extends State<Home> {
                             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 70, left: 60),
+                          padding: const EdgeInsets.only(top: 60, left: 60),
                           child: FlatButton(
                             onPressed: () {
                               Navigator.push(context,
@@ -99,7 +102,7 @@ class _HomeState extends State<Home> {
                   width: 400,
                   height: 135,
                   decoration: BoxDecoration(
-                    color: Colors.deepOrangeAccent,
+                    color: Colors.deepOrangeAccent[200],
                     borderRadius: BorderRadius.all(Radius.circular(20),
                     ),
                   ),
@@ -140,7 +143,7 @@ class _HomeState extends State<Home> {
                 height: 160,
                 width: 370,
                 decoration: BoxDecoration(
-                  color: Colors.amber,
+                  color: Colors.amber[300],
                   borderRadius: BorderRadius.all(Radius.circular(20),
                   ),
                 ),
@@ -228,7 +231,7 @@ class _HomeState extends State<Home> {
                   borderSide: BorderSide(color: Colors.deepPurple, width: 3.0),
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MedicalConsultation(MemberName: widget.MemberName, hospital_name: widget.hospital_name)));
+                        MaterialPageRoute(builder: (context) => MedicalConsultation(MemberName: widget.MemberName, hospital_name: widget.hospital_name, Member_face_lifting: widget.Member_face_lifting, date: widget.date)));
                   },
                 ),
               ),
@@ -251,7 +254,7 @@ class _HomeState extends State<Home> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)
                   ),
-                  borderSide: BorderSide(color: Colors.deepPurple, width: 3.0),
+                  borderSide: BorderSide(color: Colors.deepPurple[300], width: 3.0),
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => MedicineHome()));

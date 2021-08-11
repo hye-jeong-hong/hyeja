@@ -812,7 +812,6 @@ class _InfoSelectState extends State<InfoSelect> {
   }
 
   ListResult(Member_face_lifting) {
-
     List<String> face_lifting_result = [];
 
     for(int i=0; i<10; i++) {
@@ -823,6 +822,7 @@ class _InfoSelectState extends State<InfoSelect> {
     return face_lifting_result;
   }
 
+  //선택된 수술 정보가 없을 시 수술 정보 선택에 대한 알림창 뜸
   void showAlertDialog_select(BuildContext context) async{
     showDialog(
         context: context,

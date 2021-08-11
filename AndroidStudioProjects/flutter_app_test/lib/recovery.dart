@@ -4,6 +4,11 @@ import 'package:flutter_app_test/home.dart';
 import 'package:image_picker/image_picker.dart';
 
 class RecoveryWrite extends StatefulWidget {
+  List<String> MemberName;
+  List<String> Member_face_lifting;
+  List<String> hospital_name;
+  List<String> date;
+  RecoveryWrite({this.MemberName, this.Member_face_lifting, this.hospital_name, this.date});
   @override
   _RecoveryWriteState createState() => _RecoveryWriteState();
 }
@@ -33,56 +38,60 @@ class _RecoveryWriteState extends State<RecoveryWrite> {
           style: TextStyle(color: Colors.white, fontSize: 23, fontWeight: FontWeight.bold),
         ),
       ),
-      body:
-           Padding(
-             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-             child: ListView(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top:10, left: 10),
-                    child: Text('정면/우측/좌측\n사진을 올려주세요 :D',
-                      style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  SizedBox(height:  MediaQuery.of(context).size.height * 0.03),
-                  Scrollbar(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          SizedBox(width: MediaQuery.of(context).size.height * 0.009,),
-                          imageProfile_1(),
-                          SizedBox(width: MediaQuery.of(context).size.height * 0.009,),
-                          imageProfile_2(),
-                          SizedBox(width: MediaQuery.of(context).size.height * 0.009,),
-                          imageProfile_3(),
-                        ],
+      body: GestureDetector(
+             onTap: () {
+               FocusScope.of(context).requestFocus(new FocusNode());
+             },
+             child: Padding(
+               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+               child: ListView(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top:10, left: 10),
+                      child: Text('정면/우측/좌측\n사진을 올려주세요 :D',
+                        style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top:30, left: 10),
-                    child: Text('회복 상태를 적어주세요',
-                      style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+                    SizedBox(height:  MediaQuery.of(context).size.height * 0.03),
+                    Scrollbar(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            SizedBox(width: MediaQuery.of(context).size.height * 0.009,),
+                            imageProfile_1(),
+                            SizedBox(width: MediaQuery.of(context).size.height * 0.009,),
+                            imageProfile_2(),
+                            SizedBox(width: MediaQuery.of(context).size.height * 0.009,),
+                            imageProfile_3(),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                  SizedBox(height:  MediaQuery.of(context).size.height * 0.03),
-                  writeProfile(),
-                  SizedBox(height:  MediaQuery.of(context).size.height * 0.03),
-                  Padding(
-                    padding: const EdgeInsets.only(left:250, right:7),
-                    child: RaisedButton(
-                      child: Text('작성 완료', style: TextStyle(color: Colors.white, fontSize: 15),),
-                      color: Colors.orange,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                      onPressed:() {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Home()));
-                      },
+                    Padding(
+                      padding: const EdgeInsets.only(top:30, left: 10),
+                      child: Text('회복 상태를 적어주세요',
+                        style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                    SizedBox(height:  MediaQuery.of(context).size.height * 0.03),
+                    writeProfile(),
+                    SizedBox(height:  MediaQuery.of(context).size.height * 0.03),
+                    Padding(
+                      padding: const EdgeInsets.only(left:250, right:7),
+                      child: RaisedButton(
+                        child: Text('작성 완료', style: TextStyle(color: Colors.white, fontSize: 15),),
+                        color: Colors.orange,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                        onPressed:() {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => Home(MemberName: widget.MemberName, Member_face_lifting: widget.Member_face_lifting, hospital_name: widget.hospital_name, date: widget.date)));
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+             ),
            ),
     );
   }
@@ -102,7 +111,7 @@ class _RecoveryWriteState extends State<RecoveryWrite> {
             right: 20,
             child: InkWell(
               onTap: (){
-                showModalBottomSheet(context: context, builder: ((builder) => bottonSheet_1()));
+                showModalBottomSheet(context: context, builder: ((builder) => buttonSheet_1()));
               },
               child: Icon(
                 Icons.camera_alt,
@@ -131,7 +140,7 @@ class _RecoveryWriteState extends State<RecoveryWrite> {
             right: 20,
             child: InkWell(
               onTap: (){
-                showModalBottomSheet(context: context, builder: ((builder) => bottonSheet_2()));
+                showModalBottomSheet(context: context, builder: ((builder) => buttonSheet_2()));
               },
               child: Icon(
                 Icons.camera_alt,
@@ -160,7 +169,7 @@ class _RecoveryWriteState extends State<RecoveryWrite> {
             right: 20,
             child: InkWell(
               onTap: (){
-                showModalBottomSheet(context: context, builder: ((builder) => bottonSheet_3()));
+                showModalBottomSheet(context: context, builder: ((builder) => buttonSheet_3()));
               },
               child: Icon(
                 Icons.camera_alt,
@@ -201,7 +210,7 @@ class _RecoveryWriteState extends State<RecoveryWrite> {
     );
   }
 
-  Widget bottonSheet_1() {
+  Widget buttonSheet_1() {
     return Container(
       height: 100,
       width: MediaQuery.of(context).size.width,
@@ -211,7 +220,7 @@ class _RecoveryWriteState extends State<RecoveryWrite> {
       ),
       child: Column(
         children: [
-          Text('Choose Photo',
+          Text('정면 사진을 등록해주세요 :)',
           style: TextStyle(
             fontSize: 20,
           ),),
@@ -240,7 +249,7 @@ class _RecoveryWriteState extends State<RecoveryWrite> {
     );
   }
 
-  Widget bottonSheet_2() {
+  Widget buttonSheet_2() {
     return Container(
         height: 100,
         width: MediaQuery.of(context).size.width,
@@ -250,7 +259,7 @@ class _RecoveryWriteState extends State<RecoveryWrite> {
         ),
         child: Column(
           children: [
-            Text('Choose Photo',
+            Text('우측 사진을 등록해주세요 :)',
               style: TextStyle(
                 fontSize: 20,
               ),),
@@ -279,7 +288,7 @@ class _RecoveryWriteState extends State<RecoveryWrite> {
     );
   }
 
-  Widget bottonSheet_3() {
+  Widget buttonSheet_3() {
     return Container(
         height: 100,
         width: MediaQuery.of(context).size.width,
@@ -289,7 +298,7 @@ class _RecoveryWriteState extends State<RecoveryWrite> {
         ),
         child: Column(
           children: [
-            Text('Choose Photo',
+            Text('좌측 사진을 등록해주세요 :)',
               style: TextStyle(
                 fontSize: 20,
               ),),
@@ -302,7 +311,7 @@ class _RecoveryWriteState extends State<RecoveryWrite> {
                   onPressed: () {
                     takePhoto_3(ImageSource.camera);
                   },
-                  label: Text('Camera', style: TextStyle(fontSize: 20),),
+                  label: Text('Camera', style: TextStyle(fontSize: 20)),
                 ),
                 FlatButton.icon(
                   icon: Icon(Icons.photo_library, size: 50,),
@@ -338,5 +347,4 @@ class _RecoveryWriteState extends State<RecoveryWrite> {
       _imageFile_3 = pickedFile_3;
     });
   }
-
 }

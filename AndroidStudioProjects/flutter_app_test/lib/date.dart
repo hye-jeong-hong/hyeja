@@ -15,13 +15,12 @@ class Date extends StatefulWidget {
 
 class _DateState extends State<Date> {
   String _selectedDate = '';
-  String _dateCount = '';
   List<String> date = [];
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     setState(() {
       if (args.value is DateTime) {
-        _selectedDate = DateFormat('yyyy/MM/dd').format(args.value).toString();
+        _selectedDate = DateFormat('yyyy/MM/dd').format(args.value).toString();  //날짜를 해당 포맷으로 설정
         date = [];
         date.add(_selectedDate);
       }
@@ -85,6 +84,7 @@ class _DateState extends State<Date> {
         ));
       }
 
+  //앱 사용자가 날짜를 선택안하고 다음 버튼을 눌렀을 때 날짜를 선택하도록 알림창 뜸
   void showAlertDialog_date(BuildContext context) async{
     showDialog(
         context: context,

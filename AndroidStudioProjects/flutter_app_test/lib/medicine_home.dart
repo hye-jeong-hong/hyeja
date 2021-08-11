@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_test/medicine_info.dart';
 import 'package:flutter_app_test/medicine_notification.dart';
+import 'package:flutter_app_test/medicine_search.dart';
 
 class MedicineHome extends StatefulWidget {
   @override
@@ -8,7 +9,9 @@ class MedicineHome extends StatefulWidget {
 }
 
 class _MedicineHomeState extends State<MedicineHome> {
+  final List<String> listExample = List.generate(10, (index) => "Text $index");
   @override
+
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.lightGreen[100],
@@ -80,6 +83,27 @@ class _MedicineHomeState extends State<MedicineHome> {
                   onPressed:() {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => MedicineNotification()));
+                  },
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 30, left: 20),
+              child: Text('\u{1F48A} 복약 정보 조회',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+            ),
+            SizedBox(height: 10,),
+            Center(
+              child: Container(
+                height: 50,
+                width: 370,
+                child: RaisedButton(
+                  child: Text('복약 정보 조회하러가기', style: TextStyle(fontWeight: FontWeight.bold),),
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                  onPressed:() {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => SearchMedicine()));
                   },
                 ),
               ),

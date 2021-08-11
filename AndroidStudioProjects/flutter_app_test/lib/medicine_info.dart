@@ -13,7 +13,6 @@ class _MedicineInfoState extends State<MedicineInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         iconTheme: IconThemeData(
             color: Colors.white
@@ -26,130 +25,137 @@ class _MedicineInfoState extends State<MedicineInfo> {
           style: TextStyle(color: Colors.white, fontSize: 23, fontWeight: FontWeight.bold),
         ),
       ),
-     body: Column(
-       mainAxisAlignment: MainAxisAlignment.start,
-       children: [
-         Padding(
-           padding: const EdgeInsets.only(top: 10, right: 210),
-           child: Text('내가 복용하는 약은?',
-             style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
-           ),
-         ),
-         SizedBox(height: 20),
-         Padding(
-           padding: const EdgeInsets.only(right: 220),
-           child: Container(
-             width: 130,
-             height: 50,
-             child: TextFormField(
-               maxLines: 1,
-               decoration: InputDecoration(
-                 border: OutlineInputBorder(
-                 borderSide: BorderSide(
-                   color: Colors.black,
-                   ),
-                 ),
-                 focusedBorder: OutlineInputBorder(
-                   borderSide: BorderSide(
-                   color: Colors.orangeAccent,
-                   width: 2,
-                   ),
+     body: SingleChildScrollView(
+       child: GestureDetector(
+         onTap: () {
+           FocusScope.of(context).requestFocus(new FocusNode());
+         },
+         child: Column(
+           mainAxisAlignment: MainAxisAlignment.start,
+           children: [
+             Padding(
+               padding: const EdgeInsets.only(top: 10, right: 210),
+               child: Text('내가 복용하는 약은?',
+                 style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+               ),
+             ),
+             SizedBox(height: 20),
+             Padding(
+               padding: const EdgeInsets.only(right: 220),
+               child: Container(
+                 width: 130,
+                 height: 50,
+                 child: TextFormField(
+                   maxLines: 1,
+                   decoration: InputDecoration(
+                     border: OutlineInputBorder(
+                     borderSide: BorderSide(
+                       color: Colors.black,
+                       ),
+                     ),
+                     focusedBorder: OutlineInputBorder(
+                       borderSide: BorderSide(
+                       color: Colors.orangeAccent,
+                       width: 2,
+                       ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-           ),
-         ),
-         SizedBox(height: 10),
-         Padding(
-           padding: const EdgeInsets.only(top: 20, right: 270, bottom: 10),
-           child: Text('약 복용 시간',
-             style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
-           ),
-         ),
-         ListTile(
-           title: const Text('아침'),
-           leading: Radio<Time>(
-             value: Time.m,
-             groupValue: _time,
-             onChanged: (value) {
-               setState(() {
-                 _time = value;
-               });
-             },
-           ),
-         ),
-         ListTile(
-           title: const Text('점심'),
-           leading: Radio<Time>(
-             value: Time.a,
-             groupValue: _time,
-             onChanged: (value) {
-               setState(() {
-                 _time = value;
-               });
-             },
-           ),
-         ),
-         ListTile(
-           title: const Text('저녁'),
-           leading: Radio<Time>(
-             value: Time.e,
-             groupValue: _time,
-             onChanged: (value) {
-               setState(() {
-                 _time = value;
-               });
-             },
-           ),
-         ),
-         SizedBox(height: 10),
-         Padding(
-           padding: const EdgeInsets.only(top: 20, right: 270, bottom: 10),
-           child: Text('약 복용 상태',
-             style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
-           ),
-         ),
-         Padding(
-           padding: const EdgeInsets.only(top:10, left: 20, right: 20),
-           child: TextFormField(
-             maxLines: 10,
-             keyboardType: TextInputType.multiline,
-             decoration: InputDecoration(
-               prefixIcon: Padding(
-                 padding: const EdgeInsets.only(bottom: 176),
-                 child: Icon(
-                   Icons.article_outlined,
-                   color: Colors.deepPurple,
-                 ),
                ),
-               border: OutlineInputBorder(
-                 borderSide: BorderSide(
-                   color: Colors.black,
-                 ),
+             ),
+             SizedBox(height: 10),
+             Padding(
+               padding: const EdgeInsets.only(top: 20, right: 270, bottom: 10),
+               child: Text('약 복용 시간',
+                 style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
                ),
-               focusedBorder: OutlineInputBorder(
-                 borderSide: BorderSide(
-                   color: Colors.orangeAccent,
-                   width: 2,
+             ),
+             ListTile(
+               title: const Text('아침'),
+               leading: Radio<Time>(
+                 value: Time.m,
+                 groupValue: _time,
+                 onChanged: (value) {
+                   setState(() {
+                     _time = value;
+                   });
+                 },
+               ),
+             ),
+             ListTile(
+               title: const Text('점심'),
+               leading: Radio<Time>(
+                 value: Time.a,
+                 groupValue: _time,
+                 onChanged: (value) {
+                   setState(() {
+                     _time = value;
+                   });
+                 },
+               ),
+             ),
+             ListTile(
+               title: const Text('저녁'),
+               leading: Radio<Time>(
+                 value: Time.e,
+                 groupValue: _time,
+                 onChanged: (value) {
+                   setState(() {
+                     _time = value;
+                   });
+                 },
+               ),
+             ),
+             SizedBox(height: 10),
+             Padding(
+               padding: const EdgeInsets.only(top: 20, right: 270, bottom: 10),
+               child: Text('약 복용 상태',
+                 style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+               ),
+             ),
+             Padding(
+               padding: const EdgeInsets.only(top:10, left: 20, right: 20),
+               child: TextFormField(
+                 maxLines: 10,
+                 keyboardType: TextInputType.multiline,
+                 decoration: InputDecoration(
+                   prefixIcon: Padding(
+                     padding: const EdgeInsets.only(bottom: 176),
+                     child: Icon(
+                       Icons.article_outlined,
+                       color: Colors.deepPurple,
+                     ),
+                   ),
+                   border: OutlineInputBorder(
+                     borderSide: BorderSide(
+                       color: Colors.black,
+                     ),
+                   ),
+                   focusedBorder: OutlineInputBorder(
+                     borderSide: BorderSide(
+                       color: Colors.orangeAccent,
+                       width: 2,
+                     ),
+                   ),
                  ),
                ),
              ),
-           ),
+             SizedBox(height: 20),
+             Padding(
+               padding: const EdgeInsets.only(left:250, right:7),
+               child: RaisedButton(
+                 child: Text('작성 완료', style: TextStyle(color: Colors.white, fontSize: 15),),
+                 color: Colors.orange,
+                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                 onPressed:() {
+                   Navigator.push(context,
+                       MaterialPageRoute(builder: (context) => MedicineHome()));
+                 },
+               ),
+             ),
+           ],
          ),
-         SizedBox(height: 20),
-         Padding(
-           padding: const EdgeInsets.only(left:250, right:7),
-           child: RaisedButton(
-             child: Text('작성 완료', style: TextStyle(color: Colors.white, fontSize: 15),),
-             color: Colors.orange,
-             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
-             onPressed:() {
-               Navigator.push(context,
-                   MaterialPageRoute(builder: (context) => MedicineHome()));
-             },
-           ),
-         ),
-       ],
+       ),
      ),
     );
   }

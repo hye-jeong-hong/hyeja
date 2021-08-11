@@ -7,7 +7,9 @@ import 'package:flutter_app_test/home.dart';
 class MedicalConsultation extends StatefulWidget {
   List<String> MemberName;
   List<String> hospital_name;
-  MedicalConsultation({this.MemberName, this.hospital_name});
+  List<String> Member_face_lifting;
+  List<String> date;
+  MedicalConsultation({this.MemberName, this.hospital_name, this.Member_face_lifting, this.date});
   @override
   _MedicalConsultationState createState() => _MedicalConsultationState();
 }
