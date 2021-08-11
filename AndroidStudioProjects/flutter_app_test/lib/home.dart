@@ -22,7 +22,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    //widget.date = ['2021/08/12'];   //로그인 -> HOME 들어오기 위한 초기화
+    widget.date = ['2021/08/12'];   //로그인 -> HOME 들어오기 위한 초기화
     String temp = (widget.date[0]).toString();
     String date = temp.replaceAll('/', '');
     var selectdate = DateTime.parse(date);
