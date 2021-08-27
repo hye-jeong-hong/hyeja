@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:convert' show utf8;
 
 
 Future<Info> getInfo() async {
-  final response = await http.get(Uri.parse('http://apis.data.go.kr/1471000/DrbEasyDrugInfoService'
+  final request = await http.get(Uri.parse('http://apis.data.go.kr/1471000/DrbEasyDrugInfoService'
       '/getDrbEasyDrugList?serviceKey=gUm%2Fp1rxF7P4AJxl25lEEc2CJKwIJxNIuZCMQLRzDFeJOa4QW3YTg4qJRqF0hdMltdAcIyKj'
       '%2FlhTqlVVWHN3Tw%3D%3D&startPage=1&itemName=%ED%99%9C%EB%AA%85%EC%88%98&itemName=활명수'),
-    headers: {'Content-Type': 'application/json'},
+    headers: {'content-type': 'text/xml'},
   );
 
-  if(response.statusCode == 200) {
+  if(request.statusCode == 200 || request.statusCode == 201) {
     print("통신 완료");
 
-    var info_2 = utf8.decode(response.bodyBytes);
-    return Info.fromJson(jsonDecode(info_2));
+    Info result = Info.fromJson(json.decode(request.body));
+    var info_2 = utf8.decode(request.bodyBytes);
+
+    print(utf8.decode(request.bodyBytes));
+    return Info.fromJson(jsonDecode(jsonDecode(info_2)));
+    //return utf8.decode(info_2); //Info.fromJson(jsonDecode(jsonDecode(info_2))); //Info.fromJson(jsonDecode(info_2));
   } else {
     throw Exception("통신 실패");
   }
@@ -44,20 +49,6 @@ class SearchMedicine extends StatefulWidget {
 }
 
 class _SearchMedicineState extends State<SearchMedicine> {
-
-//   search() async {
-//     final response = await http.get(Uri.parse('http://apis.data.go.kr/1471000/DrbEasyDrugInfoService'
-//         '/getDrbEasyDrugList?serviceKey=gUm%2Fp1rxF7P4AJxl25lEEc2CJKwIJxNIuZCMQLRzDFeJOa4QW3YTg4qJRqF0hdMltdAcIyKj'
-//         '%2FlhTqlVVWHN3Tw%3D%3D&startPage=1&itemName=%ED%99%9C%EB%AA%85%EC%88%98&itemName=활명수'),
-//       headers: {'Content-Type': 'application/json'},
-//     );
-//
-//
-//     final info = utf8.decode(response.bodyBytes);
-//
-//     if(response.statusCode == 200) {
-//     }
-//   }
 
   bool check = false;
 
@@ -114,33 +105,35 @@ class _SearchMedicineState extends State<SearchMedicine> {
                     padding: EdgeInsets.all(0),
                     child: Text('검색'),
                     onPressed: () {
-                     check = true;
+                     //check = true;
+                      Container(
+                          child: FutureBuilder<Info>(
+                            future: getInfo(),
+                            builder: (context, snapshot) {
+                              if(snapshot.hasData){
+                                print('snapshot has data');
+                                return Column(
+                                  children: [
+
+                                    Text(snapshot.data.efcyQesitm),
+                                    Text(snapshot.data.useMethodQesitm),
+                                  ],
+                                );
+                              } else if (snapshot.hasError) {
+                                print(snapshot.error);
+                              }
+                              return CircularProgressIndicator();
+                            },
+                          )
+                      );
                     },
                   ),
                 ),
               ),
             ],
           ),
-          if(check == true)
-            Container(
-              child: FutureBuilder<Info>(
-                future: getInfo(),
-                builder: (context, snapshot) {
-                  if(snapshot.hasData){
-                    print('snapshot has data');
-                    return Column(
-                      children: [
-                        Text(snapshot.data.efcyQesitm),
-                        Text(snapshot.data.useMethodQesitm),
-                      ],
-                    );
-                  } else if (snapshot.hasError) {
-                    print(snapshot.error);
-                  }
-                  return CircularProgressIndicator();
-                },
-              )
-            )
+          //if(check == true)
+
 
           // TextFormField(
           //   decoration: new InputDecoration(

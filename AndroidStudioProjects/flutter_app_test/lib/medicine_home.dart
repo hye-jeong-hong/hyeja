@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_test/medicine_info.dart';
+import 'package:flutter_app_test/medicine_info_list.dart';
 import 'package:flutter_app_test/medicine_notification.dart';
 import 'package:flutter_app_test/medicine_search.dart';
 
 class MedicineHome extends StatefulWidget {
+  List<String> MemberName;
+  MedicineHome({this.MemberName});
+
   @override
   _MedicineHomeState createState() => _MedicineHomeState();
 }
@@ -61,7 +65,7 @@ class _MedicineHomeState extends State<MedicineHome> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
                   onPressed:() {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MedicineInfo()));
+                        MaterialPageRoute(builder: (context) => MedicineInfoList()));
                   },
                 ),
               ),
@@ -82,7 +86,7 @@ class _MedicineHomeState extends State<MedicineHome> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
                   onPressed:() {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MedicineNotification()));
+                        MaterialPageRoute(builder: (context) => MedicineNotification(MemberName: widget.MemberName)));
                   },
                 ),
               ),

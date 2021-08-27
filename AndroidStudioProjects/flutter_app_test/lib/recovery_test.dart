@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_test/home.dart';
 import 'package:image_picker/image_picker.dart';
 
-class RecoveryWrite extends StatefulWidget {
+class RecoveryTest extends StatefulWidget {
   List<String> MemberName;
   List<String> Member_face_lifting;
   List<String> hospital_name;
   List<String> date;
-  RecoveryWrite({this.MemberName, this.Member_face_lifting, this.hospital_name, this.date});
+  RecoveryTest({this.MemberName, this.Member_face_lifting, this.hospital_name, this.date});
+
   @override
-  _RecoveryWriteState createState() => _RecoveryWriteState();
+  _RecoveryTestState createState() => _RecoveryTestState();
 }
 
-class _RecoveryWriteState extends State<RecoveryWrite> {
-
+class _RecoveryTestState extends State<RecoveryTest> {
   PickedFile _imageFile_1;
   PickedFile _imageFile_2;
   PickedFile _imageFile_3;
@@ -24,81 +24,106 @@ class _RecoveryWriteState extends State<RecoveryWrite> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-            color: Colors.white
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+              color: Colors.white
+          ),
+          toolbarHeight: 130,
+          centerTitle: true,
+          elevation: 0,
+          backgroundColor: Color.fromRGBO(255, 204, 204, 1),
+          title: Text('회복기록작성',
+            style: TextStyle(color: Colors.white, fontSize: 23, fontWeight: FontWeight.bold),
+          ),
+          bottom: TabBar(
+            labelColor: Colors.indigo,
+            unselectedLabelColor: Colors.white,
+            indicator: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadiusDirectional.vertical(top: Radius.circular(18.0))
+            ),
+            indicatorSize: TabBarIndicatorSize.tab,
+            tabs: [
+              Tab(text: '눈'),
+              Tab(text: '코'),
+              Tab(text: '이마 필러'),
+            ],
+          ),
+
         ),
-        toolbarHeight: 80,
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: Color.fromRGBO(255, 204, 204, 1),
-        title: Text('회복기록작성',
-          style: TextStyle(color: Colors.white, fontSize: 23, fontWeight: FontWeight.bold),
-        ),
-      ),
-      body: GestureDetector(
-             onTap: () {
-               FocusScope.of(context).requestFocus(new FocusNode());
-             },
-             child: Padding(
-               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-               child: ListView(
-                  children: [
-                    TabBar(
-                      tabs: [
-                        Tab(text: "얼굴"),
-                        Tab(text: "코"),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top:10, left: 10),
-                      child: Text('정면/우측/좌측\n사진을 올려주세요 :D',
-                        style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+        body: TabBarView(
+          children: [
+            Container(
+              child: GestureDetector(
+                onTap: () {
+                  FocusScope.of(context).requestFocus(new FocusNode());
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                  child: ListView(
+                    children: [
+                      TabBar(
+                        tabs: [
+                          Tab(text: "얼굴"),
+                          Tab(text: "코"),
+                        ],
                       ),
-                    ),
-                    SizedBox(height:  MediaQuery.of(context).size.height * 0.03),
-                    Scrollbar(
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            SizedBox(width: MediaQuery.of(context).size.height * 0.009,),
-                            imageProfile_1(),
-                            SizedBox(width: MediaQuery.of(context).size.height * 0.009,),
-                            imageProfile_2(),
-                            SizedBox(width: MediaQuery.of(context).size.height * 0.009,),
-                            imageProfile_3(),
-                          ],
+                      Padding(
+                        padding: const EdgeInsets.only(top:10, left: 10),
+                        child: Text('정면/우측/좌측\n사진을 올려주세요 :D',
+                          style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top:30, left: 10),
-                      child: Text('회복 상태를 적어주세요',
-                        style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+                      SizedBox(height:  MediaQuery.of(context).size.height * 0.03),
+                      Scrollbar(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              SizedBox(width: MediaQuery.of(context).size.height * 0.009,),
+                              imageProfile_1(),
+                              SizedBox(width: MediaQuery.of(context).size.height * 0.009,),
+                              imageProfile_2(),
+                              SizedBox(width: MediaQuery.of(context).size.height * 0.009,),
+                              imageProfile_3(),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                    SizedBox(height:  MediaQuery.of(context).size.height * 0.03),
-                    writeProfile(),
-                    SizedBox(height:  MediaQuery.of(context).size.height * 0.03),
-                    Padding(
-                      padding: const EdgeInsets.only(left:250, right:7),
-                      child: RaisedButton(
-                        child: Text('작성 완료', style: TextStyle(color: Colors.white, fontSize: 15),),
-                        color: Colors.orange,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                        onPressed:() {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Home(MemberName: widget.MemberName, Member_face_lifting: widget.Member_face_lifting, hospital_name: widget.hospital_name)));
-                        },
+                      Padding(
+                        padding: const EdgeInsets.only(top:30, left: 10),
+                        child: Text('회복 상태를 적어주세요',
+                          style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
                       ),
-                    ),
-                  ],
+                      SizedBox(height:  MediaQuery.of(context).size.height * 0.03),
+                      writeProfile(),
+                      SizedBox(height:  MediaQuery.of(context).size.height * 0.03),
+                      Padding(
+                        padding: const EdgeInsets.only(left:250, right:7),
+                        child: RaisedButton(
+                          child: Text('작성 완료', style: TextStyle(color: Colors.white, fontSize: 15),),
+                          color: Colors.orange,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                          onPressed:() {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => Home(MemberName: widget.MemberName, Member_face_lifting: widget.Member_face_lifting, hospital_name: widget.hospital_name)));
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-             ),
-           ),
+              ),
+            ),
+            Container(child: Text('코 성형 회복기록')),
+            Container(child: Text('이마 필러 성형 회복기록')),
+          ],
+        ),
+      ),
     );
   }
 
@@ -218,40 +243,40 @@ class _RecoveryWriteState extends State<RecoveryWrite> {
 
   Widget buttonSheet_1() {
     return Container(
-      height: 100,
-      width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 20
-      ),
-      child: Column(
-        children: [
-          Text('정면 사진을 등록해주세요 :)',
-          style: TextStyle(
-            fontSize: 20,
-          ),),
-          SizedBox(height: 20,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              FlatButton.icon(
-                icon: Icon(Icons.camera, size:50),
-                onPressed: () {
-                  takePhoto_1(ImageSource.camera);
-                },
-                label: Text('Camera', style: TextStyle(fontSize: 20),),
-              ),
-              FlatButton.icon(
-                icon: Icon(Icons.photo_library, size: 50,),
-                onPressed: () {
-                  takePhoto_1(ImageSource.gallery);
-                },
-                label: Text('Gallery', style: TextStyle(fontSize: 20),),
-              )
-            ],
-          )
-        ],
-      )
+        height: 100,
+        width: MediaQuery.of(context).size.width,
+        margin: EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 20
+        ),
+        child: Column(
+          children: [
+            Text('정면 사진을 등록해주세요 :)',
+              style: TextStyle(
+                fontSize: 20,
+              ),),
+            SizedBox(height: 20,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                FlatButton.icon(
+                  icon: Icon(Icons.camera, size:50),
+                  onPressed: () {
+                    takePhoto_1(ImageSource.camera);
+                  },
+                  label: Text('Camera', style: TextStyle(fontSize: 20),),
+                ),
+                FlatButton.icon(
+                  icon: Icon(Icons.photo_library, size: 50,),
+                  onPressed: () {
+                    takePhoto_1(ImageSource.gallery);
+                  },
+                  label: Text('Gallery', style: TextStyle(fontSize: 20),),
+                )
+              ],
+            )
+          ],
+        )
     );
   }
 

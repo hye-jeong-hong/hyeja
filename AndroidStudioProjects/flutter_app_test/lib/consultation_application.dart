@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_test/medical_consultation.dart';
 import 'package:intl/intl.dart';
 
 class ConsultationApplication extends StatefulWidget {
@@ -16,8 +17,12 @@ class _ConsultationApplicationState extends State<ConsultationApplication> {
   String _selectedTime;
   DateTime _selectedDate;
   String formattedDate;
+  int index_check = 0;
+  String info_temp = '';
+  List<String> consultation_method = [];
 
   @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -82,6 +87,7 @@ class _ConsultationApplicationState extends State<ConsultationApplication> {
                   for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++){
                     if(buttonIndex==index){
                       isSelected[buttonIndex] = true;
+                      index_check = index;
                     } else {
                       isSelected[buttonIndex] = false;
                     }
@@ -105,6 +111,7 @@ class _ConsultationApplicationState extends State<ConsultationApplication> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   child: Text('1:1 채팅'),
+
                 ),
               ],
             ),
@@ -124,6 +131,17 @@ class _ConsultationApplicationState extends State<ConsultationApplication> {
                   color: Colors.deepPurple[300],
                   textColor: Colors.white,
                   onPressed: () {
+                    print(index_check);
+                    if(index_check == 0){
+                      info_temp = '직접 방문';
+                    } else if (index_check == 1) {
+                      info_temp = '전화';
+                    } else if (index_check == 2) {
+                      info_temp = '화상 통화';
+                    } else {
+                      info_temp = '1:1 채팅';
+                    }
+                    print('상담 데이터 확인 '  + info_temp);
                     Future<DateTime> future = showDatePicker(
                         context: context,
                         initialDate: DateTime.now(),
@@ -140,6 +158,7 @@ class _ConsultationApplicationState extends State<ConsultationApplication> {
                         _selectedDate = date;
                         result = _selectedDate.toString();
                         result = DateFormat('yyyy-MM-dd').format(_selectedDate);
+                        print(result);
                       });
                     });
                   },
@@ -225,25 +244,33 @@ class _ConsultationApplicationState extends State<ConsultationApplication> {
       ),
     );
   }
-}
+  void showAlertDialog(BuildContext context) async {
 
-void showAlertDialog(BuildContext context) async {
-  String result = await showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('After Me'),
-          content: Text("상담 예약 신청이 완료되었습니다. 병원 측에서 After Me에 등록된 회원님의 전화번호로 상담관련 메세지가 발송될 예정입니다."),
-          actions: [
-            FlatButton(
-              child: Text("확인"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      }
-  );
+    consultation_method = [];
+    consultation_method.add(info_temp);
+    consultation_method.add(result.toString());
+    consultation_method.add(_selectedTime.toString());
+
+
+    String result_message = await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('After Me'),
+            content: Text("상담 예약 신청이 완료되었습니다. 병원 측에서 After Me에 등록된 회원님의 전화번호로 상담관련 메세지가 발송될 예정입니다."),
+            actions: [
+              FlatButton(
+                child: Text("확인"),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MedicalConsultation(consultation_method: consultation_method, hospital_name: widget.hospital_name)));
+                  //Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        }
+    );
+  }
 }

@@ -1,17 +1,23 @@
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_test/hospital.dart';
+import 'package:http/http.dart' as http;
 import 'package:multiselect_formfield/multiselect_formfield.dart';
 
 class InfoSelect extends StatefulWidget {
+  List<int> MemberId;
   List<String> MemberName;
-  InfoSelect({this.MemberName});
+  InfoSelect({this.MemberName, this.MemberId});
   @override
   _InfoSelectState createState() => _InfoSelectState();
 }
 
 class _InfoSelectState extends State<InfoSelect> {
+
+  bool nextcheck = false;
   List<String> Member_face_lifting = [];
+  List<String> select_result = [];
 
   List _myActivities_eye;
   String _myActivitiesResult_eye;
@@ -63,26 +69,59 @@ class _InfoSelectState extends State<InfoSelect> {
 
   _saveForm() {
     var form = formKey.currentState;
-    form.save();
+    List<String> face_result = [];
     if (form.validate()) {
       setState(() {
-        _myActivitiesResult_eye = _myActivities_eye.toString();
-        _myActivitiesResult_nose = _myActivities_nose.toString();
-        _myActivitiesResult_face = _myActivities_face.toString();
-        _myActivitiesResult_liposuction = _myActivities_liposuction.toString();
-        _myActivitiesResult_bust = _myActivities_bust.toString();
-        _myActivitiesResult_transplantation = _myActivities_transplantation.toString();
-        _myActivitiesResult_lip = _myActivities_lip.toString();
-        _myActivitiesResult_lifting = _myActivities_lifting.toString();
-        _myActivitiesResult_prosthesis = _myActivities_prosthesis.toString();
-        _myActivitiesResult_filler = _myActivities_filler.toString();
+        for(int i = 0; i < _myActivities_eye.length; i ++) {
+          if(_myActivities_eye[i] != null)
+            face_result.add(_myActivities_eye[i]);
+        }
+        for(int i = 0; i < _myActivities_nose.length; i ++) {
+          if(_myActivities_nose[i] != null)
+            face_result.add(_myActivities_nose[i]);
+        }
+        for(int i = 0; i < _myActivities_face.length; i ++) {
+          if(_myActivities_face[i] != null)
+            face_result.add(_myActivities_face[i]);
+        }
+        for(int i = 0; i < _myActivities_liposuction.length; i ++) {
+          if(_myActivities_liposuction[i] != null)
+            face_result.add(_myActivities_liposuction[i]);
+        }
+        for(int i = 0; i < _myActivities_bust.length; i ++) {
+          if(_myActivities_bust[i] != null)
+            face_result.add(_myActivities_bust[i]);
+        }
+        for(int i = 0; i < _myActivities_transplantation.length; i ++) {
+          if(_myActivities_transplantation[i] != null)
+            face_result.add(_myActivities_transplantation[i]);
+        }
+        for(int i = 0; i < _myActivities_lip.length; i ++) {
+          if(_myActivities_lip[i] != null)
+            face_result.add(_myActivities_lip[i]);
+        }
+        for(int i = 0; i < _myActivities_lifting.length; i ++) {
+          if(_myActivities_lifting[i] != null)
+            face_result.add(_myActivities_lifting[i]);
+        }
+        for(int i = 0; i < _myActivities_prosthesis.length; i ++) {
+          if(_myActivities_prosthesis[i] != null)
+            face_result.add(_myActivities_prosthesis[i]);
+        }
+        for(int i = 0; i < _myActivities_filler.length; i ++) {
+          if(_myActivities_filler[i] != null)
+            face_result.add(_myActivities_filler[i]);
+        }
+        print(face_result);
         form.save();
       });
     }
+    return face_result;
   }
 
   @override
   Widget build(BuildContext context) {
+    print(widget.MemberId);
     return Scaffold(
       appBar: AppBar(
         title: Text('After Me'),
@@ -756,52 +795,66 @@ class _InfoSelectState extends State<InfoSelect> {
                             _myActivities_filler = value;
                           });
                           Member_face_lifting.add(_myActivitiesResult_filler);
-                          ListResult(Member_face_lifting);
-                          Member_face_lifting = ListResult(Member_face_lifting);
+                         // Member_face_lifting = ListResult(Member_face_lifting);
+                         // Member_face_lifting = _saveForm();
                         },
                       ),
                     ),
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.all(16),
-                  child: Text('선택하신 성형 수술/시술 종류는\n' + (_myActivitiesResult_eye.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
-                      + (_myActivitiesResult_nose.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
-                      + (_myActivitiesResult_face.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
-                      + (_myActivitiesResult_liposuction.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
-                      + (_myActivitiesResult_bust.replaceAll('[', '')).replaceAll(']', '' ).replaceAll(',', '')
-                      + (_myActivitiesResult_transplantation.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
-                      + (_myActivitiesResult_lip.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
-                      + (_myActivitiesResult_lifting.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
-                      + (_myActivitiesResult_prosthesis.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
-                      + (_myActivitiesResult_filler.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '') + ' 입니다 :)'),
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('선택하신 성형 수술/시술 종류는\n'),
+                      Text(Member_face_lifting.toString()),
+                    ],
+                  )
+                    //child: Text('선택하신 성형 수술/시술 종류는\n' + Member_face_lifting.toString()),
                 ),
+
+                //   child: Text('선택하신 성형 수술/시술 종류는\n' + (_myActivitiesResult_eye.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
+                //       + (_myActivitiesResult_nose.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
+                //       + (_myActivitiesResult_face.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
+                //       + (_myActivitiesResult_liposuction.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
+                //       + (_myActivitiesResult_bust.replaceAll('[', '')).replaceAll(']', '' ).replaceAll(',', '')
+                //       + (_myActivitiesResult_transplantation.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
+                //       + (_myActivitiesResult_lip.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
+                //       + (_myActivitiesResult_lifting.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
+                //       + (_myActivitiesResult_prosthesis.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '')
+                //       + (_myActivitiesResult_filler.replaceAll('[', '')).replaceAll(']', '').replaceAll(',', '') + ' 입니다 :)'),
+                // ),
                 Container(
                   padding: EdgeInsets.all(8),
                   child: RaisedButton(
                     color: Colors.orange[200],
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
                     child: Text('저장하기'),
-                    onPressed: _saveForm,
+                    onPressed: () {
+                      Member_face_lifting = _saveForm();
+                      print(Member_face_lifting);
+                      nextcheck = true;
+                    }
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.only(top: 2),
-                  child: RaisedButton(
-                    child: Text('다음'),
-                    color: Colors.orange[300],
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                    onPressed:() {
-                      _saveForm();
-                      if(Member_face_lifting.toString() != '[]'){
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Hospital(MemberName: widget.MemberName, Member_face_lifting: Member_face_lifting)));
-                      } else if (Member_face_lifting.toString() != null){
-                        showAlertDialog_select(context);
-                      }
-                    },
+                if(nextcheck == true)
+                  Container(
+                    padding: EdgeInsets.only(top: 2),
+                    child: RaisedButton(
+                      child: Text('다음'),
+                      color: Colors.orange[300],
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                      onPressed:() {
+                        Member_face_lifting == false;
+                        if(Member_face_lifting.toString() != '[]'){
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => Hospital(MemberName: widget.MemberName, Member_face_lifting: Member_face_lifting, MemberId: widget.MemberId)));
+                        } else if (Member_face_lifting.toString() != null){
+                          showAlertDialog_select(context);
+                        }
+                      },
+                    ),
                   ),
-                ),
                 SizedBox(height: 30),
               ],
             ),

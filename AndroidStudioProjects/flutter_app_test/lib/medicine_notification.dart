@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_test/medicine_home.dart';
 
 class MedicineNotification extends StatefulWidget {
+  List<String> MemberName;
+  MedicineNotification({this.MemberName});
+
   @override
   _MedicineNotificationState createState() => _MedicineNotificationState();
 }
@@ -42,7 +45,7 @@ class _MedicineNotificationState extends State<MedicineNotification> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 20, left: 20),
-                child: Text('홍길동님이 설정에 따라\n푸쉬알림으로 꼼꼼한 복용이 가능합니다 :)',
+                child: Text(widget.MemberName[0] + '님의 설정에 따라\n푸쉬알림으로 꼼꼼한 복용이 가능합니다 :)',
                   style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold)
                 ),
               ),
@@ -174,9 +177,11 @@ class _MedicineNotificationState extends State<MedicineNotification> {
               Padding(
                 padding: const EdgeInsets.only(top: 20, left: 40, right: 40),
                 child: TextFormField(
+                  style: TextStyle(fontSize: 12.0),
                   maxLines: 2,
                   keyboardType: TextInputType.multiline,
                   decoration: InputDecoration(
+                    hintText: '설정하신 복용 알림 시간에 ' + widget.MemberName[0] + '님이 작성하신 복용 알림 문구가 푸쉬알림 메세지에 표시됩니다 :)',
                     prefixIcon: Padding(
                       padding: const EdgeInsets.only(bottom: 20),
                       child: Icon(

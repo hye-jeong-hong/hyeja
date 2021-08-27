@@ -119,6 +119,7 @@ class _MedicineInfoState extends State<MedicineInfo> {
                  maxLines: 10,
                  keyboardType: TextInputType.multiline,
                  decoration: InputDecoration(
+                   hintText: '약 복용 후 부작용 등 나의 복약 상태에 대해 이 곳에 기록해보세요!',
                    prefixIcon: Padding(
                      padding: const EdgeInsets.only(bottom: 176),
                      child: Icon(

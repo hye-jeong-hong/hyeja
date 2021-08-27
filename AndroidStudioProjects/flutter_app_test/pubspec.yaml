@@ -38,6 +38,8 @@ dependencies:
   webview_flutter:
   json_annotation:
   date_format:
+  bubble_tab_indicator:
+
 
 
 

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/basic.dart';
 import 'package:flutter_app_test/info_select.dart';
@@ -6,13 +7,18 @@ import 'package:flutter_app_test/medical_consultation.dart';
 import 'package:flutter_app_test/medicine_home.dart';
 import 'package:flutter_app_test/recovery_info_list.dart';
 import 'package:flutter_app_test/recovery.dart';
+import 'package:flutter_app_test/recovery_test.dart';
+import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
   List<String> MemberName;
   List<String> Member_face_lifting;
   List<String> hospital_name;
-  List<String> date;
-  Home({this.MemberName, this.Member_face_lifting, this.hospital_name, this.date});
+  List<int> MemberId;
+  List<dynamic> surgery_info;
+  List<String> surgery_category;
+
+  Home({this.MemberName, this.Member_face_lifting, this.hospital_name, this.MemberId, this.surgery_info, this.surgery_category});
 
   @override
   _HomeState createState() => _HomeState();
@@ -22,18 +28,21 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    widget.date = ['2021/08/12'];   //로그인 -> HOME 들어오기 위한 초기화
-    String temp = (widget.date[0]).toString();
+
+
+    widget.surgery_info = ['2021/08/27'];  //로그인 -> HOME 들어오기 위한 초기화
+    String temp = (widget.surgery_info[0]).toString();
     String date = temp.replaceAll('/', '');
     var selectdate = DateTime.parse(date);
     var now = DateTime.now();
-    var betweenday = now.difference(selectdate).inDays;   //현재 날짜와 선택한 날짜의 차이
+    var betweenday = now.difference(selectdate).inDays;
+
+
 
     String face_result = widget.Member_face_lifting.toString();
     face_result = face_result.replaceAll('[', '');
     face_result = face_result.replaceAll(']', '');
     face_result = face_result.replaceAll(',', '  #');
-
 
     // 수술 날짜부터 현재 날짜를 기준으로 기간에 따른 회복 단계 제공
     String level_title_1 = '지혈 시기';
@@ -96,8 +105,13 @@ class _HomeState extends State<Home> {
                   ],
                 )
             ),
+            SizedBox(height: 20,),
             Padding(
-                padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20),
+              padding: const EdgeInsets.only(left: 20),
+              child: Text('나의 수술 정보', style: TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),),
+            ),
+            Padding(
+                padding: const EdgeInsets.only(top: 10.0, left: 20, right: 20),
                 child: Container(
                   width: 400,
                   height: 135,
@@ -116,7 +130,7 @@ class _HomeState extends State<Home> {
                           child: FlatButton(
                             onPressed: () {
                               Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => InfoSelect(MemberName: widget.MemberName)));
+                                  MaterialPageRoute(builder: (context) => InfoSelect(MemberName: widget.MemberName, MemberId: widget.MemberId)));
                             },
                             child: Text('변경하러 가기 >',
                               style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
@@ -126,12 +140,16 @@ class _HomeState extends State<Home> {
                         Text('# ' + face_result,
                           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
                         ),
-                        Text('수술한지 ' + betweenday.toString() + '일',
-                          style: TextStyle(fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                          softWrap: false,
-                        ),
+                        if(betweenday == 0)
+                          Text('등록된 정보가 없습니다',
+                            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),)
+                        else
+                          Text('수술한지 ' + betweenday.toString() + '일',
+                            style: TextStyle(fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                            softWrap: false,
+                          ),
                       ],
                     ),
                   ),
@@ -185,7 +203,7 @@ class _HomeState extends State<Home> {
                   borderSide: BorderSide(color: Colors.deepPurple, width: 3.0),
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => RecoveryWrite()));
+                        MaterialPageRoute(builder: (context) => RecoveryTest()));
                   },
                 ),
               ),
@@ -231,7 +249,7 @@ class _HomeState extends State<Home> {
                   borderSide: BorderSide(color: Colors.deepPurple, width: 3.0),
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MedicalConsultation(MemberName: widget.MemberName, hospital_name: widget.hospital_name, Member_face_lifting: widget.Member_face_lifting, date: widget.date)));
+                        MaterialPageRoute(builder: (context) => MedicalConsultation(MemberName: widget.MemberName, hospital_name: widget.hospital_name, Member_face_lifting: widget.Member_face_lifting)));
                   },
                 ),
               ),
@@ -257,7 +275,7 @@ class _HomeState extends State<Home> {
                   borderSide: BorderSide(color: Colors.deepPurple[300], width: 3.0),
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MedicineHome()));
+                        MaterialPageRoute(builder: (context) => MedicineHome(MemberName: widget.MemberName)));
                   },
                 ),
               ),

@@ -16,37 +16,40 @@ class _loginPageState extends State<loginPage> {
 
   int check = 0;
   List<String> MemberName = [];
+  List<int> MemberId = [];
   List<String> Member_face_lifting = ['등록된 정보가 없습니다'];  //사용자가 수술 정보 입력 전 해당 메세지가 뜨도록 설정
   String temp = '';
   bool login = false;
 
   signIn(String mobileNum, String pass) async {
 
-    Map login_data =
+    Map user_data =
     {
       "mobileNum": mobileNum.toString(),
       "pass": pass.toString(),
     };
-    login_data = login_data.cast<String, dynamic>();
-    print(login_data);
+    user_data = user_data.cast<String, dynamic>();
+    print(user_data);
 
     final response = await http.post(Uri.parse('http://3.35.67.179:3300/patient/login'),
-      body: jsonEncode(login_data),
+      body: jsonEncode(user_data),
       headers: {'Content-Type': 'application/json'},
     );
 
-    Map<String, dynamic> data_2 = json.decode(response.body.toString());
-    print(data_2);
+    Map<String, dynamic> login_data = json.decode(response.body.toString());
+    print(login_data);
     if (response.statusCode == 200 || response.statusCode == 201) {
       print("통신 완료");
       print(response.body);
-      if(data_2['ok'] == true){
+      if(login_data['ok'] == true){
         login = true;
         MemberName = [];
-        MemberName.add(data_2['patient']['name'].toString());
+        MemberId = [];
+        MemberName.add(login_data['patient']['name'].toString());
+        MemberId.add(login_data['patient']['id']);
         print("로그인 성공");
       }
-      print(data_2);
+      print(login_data);
 
     } else if(response.statusCode == 504){
       print('서버와의 연결이 불안정합니다.');
@@ -156,7 +159,7 @@ class _loginPageState extends State<loginPage> {
                         });
                         if(login==true){
                           Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Home(MemberName: MemberName)));
+                              MaterialPageRoute(builder: (context) => Home(MemberName: MemberName, MemberId: MemberId)));
                         } else {
                           showAlertDialog(context);
                         }
